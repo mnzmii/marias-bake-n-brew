@@ -1,0 +1,24 @@
+{
+  "name": "Maria's Admin Panel",
+  "short_name": "MBB Admin",
+  "description": "Admin panel untuk Maria's Bake & Brew",
+  "start_url": "./admin.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1E3D2F",
+  "theme_color": "#1E3D2F",
+  "icons": [
+    {
+      "src": "admin-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "admin-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
