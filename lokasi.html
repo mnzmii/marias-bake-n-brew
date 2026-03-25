@@ -38,6 +38,73 @@
 
   .container { max-width:1100px; margin:0 auto; padding:56px 40px 80px; }
 
+
+  /* Navigation Buttons */
+  .nav-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 48px;
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 24px;
+    background: var(--green-deep);
+    border-radius: 14px;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(30,61,47,0.15);
+  }
+  .nav-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(30,61,47,0.2); }
+  .nav-btn-alt {
+    background: var(--white);
+    border: 1.5px solid var(--card-border);
+    box-shadow: 0 4px 20px rgba(30,61,47,0.06);
+  }
+  .nav-btn-alt:hover { box-shadow: 0 8px 28px rgba(30,61,47,0.1); }
+  .nav-btn-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.12);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    color: var(--cream);
+  }
+  .nav-btn-alt .nav-btn-icon {
+    background: rgba(30,61,47,0.07);
+    color: var(--green-deep);
+  }
+  .nav-btn-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .nav-btn-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(248,243,235,0.55);
+    font-weight: 400;
+  }
+  .nav-btn-alt .nav-btn-label { color: var(--text-muted); }
+  .nav-btn-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .nav-btn-alt .nav-btn-name { color: var(--green-deep); }
+  .nav-btn-arrow { color: rgba(248,243,235,0.4); flex-shrink: 0; }
+  .nav-btn-alt .nav-btn-arrow { color: var(--text-muted); }
+
+  @media (max-width: 520px) {
+    .nav-btns { grid-template-columns: 1fr; }
+  }
+
   /* MAP */
   .map-wrap { border-radius:20px; overflow:hidden; box-shadow:0 16px 48px rgba(30,61,47,0.12); margin-bottom:48px; border:1px solid var(--card-border); }
   .map-wrap iframe { width:100%; height:460px; border:none; display:block; }
@@ -46,7 +113,7 @@
   .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:48px; }
 
   .info-card { background:var(--white); border:1px solid var(--card-border); border-radius:16px; padding:32px; }
-  .info-card-icon { font-size:1.8rem; margin-bottom:16px; }
+  .info-card-icon { width:44px; height:44px; background:rgba(30,61,47,0.07); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:16px; }
   .info-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-weight:600; color:var(--green-deep); margin-bottom:16px; }
 
   .info-row { display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px solid var(--card-border); font-size:0.88rem; }
@@ -69,7 +136,7 @@
   .directions-card h3 { font-family:'Cormorant Garamond',serif; font-size:1.4rem; color:var(--cream); font-weight:600; margin-bottom:20px; }
   .directions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
   .direction-item { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:20px; }
-  .direction-icon { font-size:1.4rem; margin-bottom:10px; }
+  .direction-icon { width:40px; height:40px; background:rgba(255,255,255,0.08); border-radius:9px; display:flex; align-items:center; justify-content:center; margin-bottom:12px; }
   .direction-item h4 { font-family:'Cormorant Garamond',serif; font-size:1rem; color:var(--cream); font-weight:600; margin-bottom:6px; }
   .direction-item p { font-size:0.78rem; color:rgba(248,243,235,0.55); line-height:1.6; }
 
@@ -112,7 +179,7 @@
       </div>
       <div class="logo-text">
         <h1>Maria's Bake & Brew</h1>
-        <p>Minuman · Dessert · Roti · Biskut & Kuih · Makanan — Muar</p>
+        <p id="cms-tagline">Minuman · Dessert · Roti · Biskut & Kuih · Makanan — Muar</p>
       </div>
     </a>
     <nav>
@@ -124,15 +191,15 @@
 </header>
 
 <div class="notice-bar">
-  🌙 Waktu Operasi Ramadan: 4.00 ptg – 11.30 mlm
+  🌙 Selamat Hari Raya Aidilfitri — Maaf Zahir & Batin
   <span>·</span>
-  Waktu Biasa: 10.30 pg – 10.30 mlm
+  Waktu Operasi: 9.00 pg – 9.00 mlm
 </div>
 
 <div class="page-hero">
   <div class="page-hero-inner">
     <h2>Jom datang <em>melawat</em> kami</h2>
-    <p>No. 16, Jalan Abdullah, Muar, Johor — senang dicari, selesa untuk dine-in atau take away.</p>
+    <p id="cms-alamat">No. 16, Jalan Abdullah, Muar, Johor — senang dicari, selesa untuk dine-in atau take away.</p>
   </div>
 </div>
 
@@ -140,21 +207,30 @@
 
   <!-- GOOGLE MAPS -->
   <div class="map-wrap">
-    <iframe
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3983.5!2d102.5696!3d2.0442!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sNo.+16+Jalan+Abdullah+Muar+Johor!5e0!3m2!1sen!2smy!4v1"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3987.2745136891463!2d102.56259780883026!3d2.0460968979269025!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d1b9002b29041b%3A0x93819ede3fd66bf4!2sMaria&#39;s%20Bake%20and%20Brew!5e0!3m2!1sen!2smy!4v1773475598132!5m2!1sen!2smy" width="100%" height="460" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 
   <!-- BUTANG DIRECTIONS -->
-  <div class="cta-row" style="margin-bottom:48px;">
-    <a href="https://waze.com/ul?q=No+16+Jalan+Abdullah+Muar+Johor" target="_blank" class="btn-primary">
-      🧭 Buka dalam Waze
+  <div class="nav-btns">
+    <a href="https://www.waze.com/en/live-map/directions/my/johor-darul-tazim/muar/marias-bake-and-brew?navigate=yes&place=ChIJGwQpKwC50TER9GvWP96egZM" target="_blank" class="nav-btn">
+      <div class="nav-btn-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg>
+      </div>
+      <div class="nav-btn-text">
+        <span class="nav-btn-label">Navigate dengan</span>
+        <span class="nav-btn-name">Waze</span>
+      </div>
+      <svg class="nav-btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
     </a>
-    <a href="https://maps.google.com/?q=No+16+Jalan+Abdullah+Muar+Johor" target="_blank" class="btn-secondary">
-      📍 Buka dalam Google Maps
+    <a href="https://maps.app.goo.gl/rbJSa8s59JzuKHrQ9" target="_blank" class="nav-btn nav-btn-alt">
+      <div class="nav-btn-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
+      <div class="nav-btn-text">
+        <span class="nav-btn-label">Navigate dengan</span>
+        <span class="nav-btn-name">Google Maps</span>
+      </div>
+      <svg class="nav-btn-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
     </a>
   </div>
 
@@ -162,16 +238,23 @@
   <div class="info-grid">
 
     <div class="info-card">
-      <div class="info-card-icon">📍</div>
+      <div class="info-card-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green-deep)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </div>
       <h3>Alamat & Hubungi</h3>
       <div class="info-row">
         <div class="info-row-label">Alamat</div>
-        <div class="info-row-value">No. 16, Jalan Abdullah,<br>84000 Muar, Johor</div>
+        <div class="info-row-value" id="cms-alamat">No. 16, Jalan Abdullah,<br>84000 Muar, Johor</div>
       </div>
       <div class="info-row">
         <div class="info-row-label">Status</div>
         <div class="info-row-value open">● Buka Sekarang</div>
       </div>
+      <div class="info-row">
+        <div class="info-row-label">WhatsApp</div>
+        <div class="info-row-value"><a href="https://wa.me/60177402975" target="_blank" style="color:var(--green-deep);font-weight:500;">017-740 2975</a></div>
+      </div>
+      
       <div class="info-row">
         <div class="info-row-label">TikTok</div>
         <div class="info-row-value"><a href="https://www.tiktok.com/@mariasbakeandbrew" target="_blank" style="color:var(--green-deep);">@mariasbakeandbrew</a></div>
@@ -183,24 +266,26 @@
     </div>
 
     <div class="info-card">
-      <div class="info-card-icon">🕐</div>
+      <div class="info-card-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green-deep)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
       <h3>Waktu Operasi</h3>
       <table class="waktu-table">
         <tr>
           <td>Isnin – Jumaat</td>
-          <td>10.30 pagi – 10.30 malam</td>
+          <td>9.00 pagi – 9.00 malam</td>
         </tr>
         <tr>
           <td>Sabtu – Ahad</td>
-          <td>10.30 pagi – 10.30 malam</td>
+          <td>9.00 pagi – 9.00 malam</td>
         </tr>
         <tr>
           <td>Cuti Umum</td>
-          <td>10.30 pagi – 10.30 malam</td>
+          <td>9.00 pagi – 9.00 malam</td>
         </tr>
         <tr>
-          <td>Ramadan <span class="badge-ramadan">Khas</span></td>
-          <td>4.00 petang – 11.30 malam</td>
+          <td>Hari Raya <span class="badge-ramadan">Buka</span></td>
+          <td>9.00 pagi – 9.00 malam</td>
         </tr>
       </table>
     </div>
@@ -212,17 +297,23 @@
     <h3>Cara nak sampai</h3>
     <div class="directions-grid">
       <div class="direction-item">
-        <div class="direction-icon">🚗</div>
+        <div class="direction-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(248,243,235,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </div>
         <h4>Dari Bandar Muar</h4>
-        <p>Ikut Jalan Sulaiman ke arah Jalan Abdullah. Kedai terletak di bangunan putih dengan pintu hijau — mudah dikenali.</p>
+        <p id="cms-cara-sampai">Ikut Jalan Sulaiman ke arah Jalan Abdullah. Kedai terletak di bangunan putih dengan pintu hijau — mudah dikenali.</p>
       </div>
       <div class="direction-item">
-        <div class="direction-icon">🅿️</div>
+        <div class="direction-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(248,243,235,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h5a3 3 0 010 6H9"/></svg>
+        </div>
         <h4>Tempat Letak Kereta</h4>
-        <p>Parking tepi jalan tersedia di Jalan Abdullah. Parking awam berdekatan juga boleh digunakan.</p>
+        <p id="cms-parking">Parking tepi jalan tersedia di Jalan Abdullah. Parking awam berdekatan juga boleh digunakan.</p>
       </div>
       <div class="direction-item">
-        <div class="direction-icon">🏛️</div>
+        <div class="direction-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(248,243,235,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11M20 10v11M8 10v11M12 10v11M16 10v11"/></svg>
+        </div>
         <h4>Landmark Berdekatan</h4>
         <p>Berdekatan dengan kawasan pekan lama Muar. Cari bangunan shophouse putih bergaya kolonial dengan balloon arch hijau.</p>
       </div>
@@ -242,6 +333,9 @@
   </div>
 </footer>
 <div class="bottom-stripe"></div>
+
+
+
 
 </body>
 </html>
