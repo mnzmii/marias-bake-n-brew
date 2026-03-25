@@ -439,6 +439,21 @@
 
   
 
+  /* ── Empty State ── */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    background: var(--white);
+    border-top: 1px solid var(--border);
+  }
+  .empty-state p { font-size: 0.92rem; font-weight: 500; color: var(--text); }
+  .empty-state span { font-size: 0.78rem; color: var(--muted); }
+
   /* ── Mobile ── */
   @media (max-width: 600px) {
 
@@ -560,7 +575,6 @@
   <div class="login-box">
     <div class="login-logo">Maria's Bake & Brew</div>
     <div class="login-sub">Admin Panel</div>
-    <input type="text" id="login-url" placeholder="Apps Script URL" autocomplete="off">
     <input type="password" id="login-pw" placeholder="Password" autocomplete="off">
 
     <button class="btn-login" onclick="doLogin()">Log Masuk</button>
@@ -617,6 +631,15 @@
         <option value="ada">Ada Stok</option>
         <option value="habis">Habis</option>
       </select>
+      <select class="filter-select" id="filter-sort" onchange="renderTable()">
+        <option value="">Susun: Default</option>
+        <option value="az">A → Z</option>
+        <option value="za">Z → A</option>
+        <option value="harga-asc">Harga: Rendah ke Tinggi</option>
+        <option value="harga-desc">Harga: Tinggi ke Rendah</option>
+        <option value="ada">Ada Stok Dulu</option>
+        <option value="habis">Habis Dulu</option>
+      </select>
       <input type="text" class="search-input" id="search" placeholder="Cari nama item..." oninput="renderTable()">
     </div>
 
@@ -638,6 +661,11 @@
         </thead>
         <tbody id="table-body"></tbody>
       </table>
+    <div class="empty-state" id="empty-state" style="display:none">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-linecap="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
+        <p id="empty-state-msg">Tiada item dijumpai</p>
+        <span id="empty-state-sub">Cuba tukar filter atau carian</span>
+      </div>
     </div></div>
 </div>
 
@@ -656,7 +684,7 @@
         </div>
         <div class="form-group">
           <label>Kategori *</label>
-          <select id="f-kat">
+          <select id="f-kat" onchange="onKatChange(this.value)">
             <option value="minuman">Minuman</option>
             <option value="dessert">Dessert</option>
             <option value="roti">Roti</option>
@@ -669,11 +697,11 @@
           <label>Harga (RM) — jika satu harga je</label>
           <input type="number" id="f-harga" placeholder="cth: 12.9" step="0.1">
         </div>
-        <div class="form-group">
+        <div class="form-group" id="row-hot" style="display:none">
           <label>Harga Hot (RM)</label>
           <input type="number" id="f-hot" placeholder="cth: 10.5" step="0.1">
         </div>
-        <div class="form-group">
+        <div class="form-group" id="row-iced" style="display:none">
           <label>Harga Iced (RM)</label>
           <input type="number" id="f-iced" placeholder="cth: 11.5" step="0.1">
         </div>
@@ -687,20 +715,21 @@
         </div>
         <div class="form-group full">
           <label>Gambar</label>
-          <div class="img-upload-wrap" id="img-upload-wrap" onclick="document.getElementById('f-gambar-file').click()">
-            <div class="img-upload-preview" id="img-preview">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <span>Klik untuk pilih gambar</span>
-              <span class="img-hint">JPG, PNG — maks 5MB</span>
+          <div style="position:relative">
+            <div class="img-upload-wrap" id="img-upload-wrap" onclick="document.getElementById('f-gambar-file').click()">
+              <div class="img-upload-preview" id="img-preview">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                <span>Klik untuk pilih gambar</span>
+                <span class="img-hint">JPG, PNG — maks 5MB</span>
+              </div>
+              <input type="file" id="f-gambar-file" accept="image/*" style="display:none" onchange="previewImage(this)">
             </div>
-            <input type="file" id="f-gambar-file" accept="image/*" style="display:none" onchange="previewImage(this)">
+            <button type="button" id="btn-remove-img" onclick="removeImage()" style="display:none;position:absolute;top:8px;right:8px;background:rgba(192,57,43,0.85);color:white;border:none;border-radius:50%;width:26px;height:26px;font-size:1rem;cursor:pointer;line-height:1;backdrop-filter:blur(2px)">×</button>
           </div>
-          <div style="display:flex;align-items:center;gap:8px;margin-top:8px">
-            <div style="flex:1;height:1px;background:var(--border)"></div>
-            <span style="font-size:0.72rem;color:var(--muted)">atau guna URL</span>
-            <div style="flex:1;height:1px;background:var(--border)"></div>
-          </div>
-          <input type="text" id="f-gambar" placeholder="https://drive.google.com/uc?id=..." style="margin-top:8px" oninput="onUrlInput()">
+          <input type="hidden" id="f-gambar">
+          <button type="button" id="btn-delete-uploaded" onclick="deleteUploadedImage()" style="display:none;width:100%;margin-top:6px;padding:7px;background:var(--red-light);color:var(--red);border:1px solid rgba(192,57,43,0.2);border-radius:7px;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;">
+            🗑 Buang gambar yang tersimpan
+          </button>
           <input type="hidden" id="f-gambar-base64">
           <input type="hidden" id="f-gambar-mime">
           <input type="hidden" id="f-gambar-filename">
@@ -751,12 +780,13 @@
 
 <script>
   // ── Config ──
-  const APPS_URL_KEY = 'mbb_apps_url';
-  const PW_KEY       = 'mbb_admin_pw';
+  // ⚠️ Kemaskini URL ini bila deploy semula Apps Script
+  const APPS_URL = 'https://script.google.com/macros/s/AKfycbw2jLCoTHqykhUut0INPygZPNn5xgNtUHXiYLQs7bCUsFGGF84XwaBHvGzHT582XWU1dQ/exec';
+  const PW_KEY   = 'mbb_admin_pw';
   const KAT_LABEL    = { minuman:'Minuman', dessert:'Dessert', roti:'Roti', biskut:'Biskut & Kuih', makanan:'Makanan', lain:'Lain-Lain' };
   const KAT_EMOJI    = { minuman:'🥤', dessert:'🍰', roti:'🍞', biskut:'🍪', makanan:'🍱', lain:'✨' };
 
-  let APPS_URL  = '';
+  // APPS_URL is hardcoded above
   let ADMIN_PW  = '';
   let allItems = [];
   let editRow  = null;
@@ -765,21 +795,14 @@
 
   // ── Login ──
   function doLogin() {
-    const url = document.getElementById('login-url').value.trim();
-    const pw  = document.getElementById('login-pw').value.trim();
-    if (!url || !pw) { showLoginError('Sila isi semua ruangan.'); return; }
-    if (!url.includes('script.google.com')) { showLoginError('URL tidak sah.'); return; }
-    APPS_URL = url;
+    const pw = document.getElementById('login-pw').value.trim();
+    if (!pw) { showLoginError('Sila masukkan password.'); return; }
     ADMIN_PW = pw;
-    localStorage.setItem(APPS_URL_KEY, url);
     loadMenu(true);
   }
 
-  // Auto-fill saved values
   window.addEventListener('DOMContentLoaded', () => {
-    const savedUrl = localStorage.getItem(APPS_URL_KEY);
-    if (savedUrl) document.getElementById('login-url').value = savedUrl;
-    if (savedUrl) document.getElementById('login-pw').focus();
+    document.getElementById('login-pw').focus();
   });
 
   function showLoginError(msg) {
@@ -791,7 +814,7 @@
   document.getElementById('login-pw').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
 
   function doLogout() {
-    APPS_URL = ''; ADMIN_PW = ''; allItems = [];
+    ADMIN_PW = ''; allItems = [];
     document.getElementById('app').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('login-pw').value = '';
@@ -803,7 +826,7 @@
     try {
       const res  = await fetch(APPS_URL);
       const data = await res.json();
-      if (data.error) { if (fromLogin) showLoginError('Gagal sambung: ' + data.error); return; }
+      if (data.error) { if (fromLogin) showLoginError('Password salah atau gagal sambung.'); return; }
       allItems = data;
 
       if (fromLogin) {
@@ -845,6 +868,37 @@
       return true;
     });
 
+    // Sort
+    const sortVal = document.getElementById('filter-sort')?.value || '';
+    if (sortVal === 'az')         items.sort((a,b) => a.nama.localeCompare(b.nama));
+    else if (sortVal === 'za')    items.sort((a,b) => b.nama.localeCompare(a.nama));
+    else if (sortVal === 'harga-asc')  items.sort((a,b) => parseFloat(a.harga||a.harga_hot||0) - parseFloat(b.harga||b.harga_hot||0));
+    else if (sortVal === 'harga-desc') items.sort((a,b) => parseFloat(b.harga||b.harga_hot||0) - parseFloat(a.harga||a.harga_hot||0));
+    else if (sortVal === 'ada')   items.sort((a,b) => (b.ada ? 1 : 0) - (a.ada ? 1 : 0));
+    else if (sortVal === 'habis') items.sort((a,b) => (a.ada ? 1 : 0) - (b.ada ? 1 : 0));
+
+    // Empty state
+    const emptyState = document.getElementById('empty-state');
+    const menuTable  = document.getElementById('menu-table');
+    const emptyMsg   = document.getElementById('empty-state-msg');
+    const emptySub   = document.getElementById('empty-state-sub');
+    if (items.length === 0) {
+      if (menuTable) menuTable.style.display = 'none';
+      if (emptyState) emptyState.style.display = 'flex';
+      const search = document.getElementById('search').value;
+      const filterKatVal = document.getElementById('filter-kat').value;
+      const filterAdaVal = document.getElementById('filter-ada').value;
+      if (search && emptyMsg) emptyMsg.textContent = `Tiada hasil untuk "${search}"`;
+      else if (filterKatVal && emptyMsg) emptyMsg.textContent = `Tiada item dalam kategori ini`;
+      else if (filterAdaVal === 'habis' && emptyMsg) emptyMsg.textContent = `Semua item ada stok`;
+      else if (filterKatVal === 'ada' && emptyMsg) emptyMsg.textContent = `Tiada item yang ada stok`;
+      else if (emptyMsg) emptyMsg.textContent = 'Tiada item dijumpai';
+      if (emptySub) emptySub.textContent = 'Cuba tukar filter atau tambah item baru';
+      return;
+    }
+    if (menuTable) menuTable.style.display = 'table';
+    if (emptyState) emptyState.style.display = 'none';
+
     const tbody = document.getElementById('table-body');
     tbody.innerHTML = items.map(item => {
       const imgHTML = item.gambar_url
@@ -885,13 +939,15 @@
 
   // ── Toggle ada ──
   async function toggleAda(row, checkbox) {
-    const res  = await postAction({ action: 'toggle_ada', row });
-    const data = await res.json();
-    if (data.error) { showToast(data.error, true); checkbox.checked = !checkbox.checked; return; }
-    const item = allItems.find(i => i._row === row);
-    if (item) item.ada = data.value;
-    updateStats();
-    showToast(data.value ? 'Ditandakan Ada ✓' : 'Ditandakan Habis');
+    try {
+      const res  = await postAction({ action: 'toggle_ada', row });
+      const data = await res.json();
+      if (data.error) { showToast(data.error, true); checkbox.checked = !checkbox.checked; return; }
+      const item = allItems.find(i => i._row === row);
+      if (item) item.ada = data.value;
+      updateStats();
+      showToast(data.value ? 'Ditandakan Ada ✓' : 'Ditandakan Habis');
+    } catch(e) { showToast('Gagal sambung. Cuba semula.', true); checkbox.checked = !checkbox.checked; }
   }
 
   // ── Toggle special ──
@@ -910,6 +966,7 @@
   function openAddModal() {
     editRow = null;
     document.getElementById('modal-title').textContent = 'Tambah Item Baru';
+    document.getElementById('btn-delete-uploaded').style.display = 'none';
     clearForm();
     document.getElementById('item-modal').classList.add('open');
   }
@@ -921,12 +978,26 @@
     document.getElementById('modal-title').textContent = 'Edit Item';
     document.getElementById('f-nama').value     = item.nama || '';
     document.getElementById('f-kat').value      = item.kategori || 'minuman';
+    onKatChange(item.kategori || 'minuman');
     document.getElementById('f-harga').value    = item.harga || '';
     document.getElementById('f-hot').value      = item.harga_hot || '';
     document.getElementById('f-iced').value     = item.harga_iced || '';
     document.getElementById('f-harga-asal').value = item.harga_asal || '';
     document.getElementById('f-desc').value     = item.deskripsi || '';
-    document.getElementById('f-gambar').value   = item.gambar_url || '';
+    document.getElementById('f-gambar').value = item.gambar_url || '';
+    // Show existing image preview
+    resetImageUpload();
+    const delBtn = document.getElementById('btn-delete-uploaded');
+    delBtn.style.display = 'none';
+    if (item.gambar_url) {
+      const wrap = document.getElementById('img-upload-wrap');
+      const prev = document.getElementById('img-preview');
+      const removeBtn = document.getElementById('btn-remove-img');
+      wrap.classList.add('has-img');
+      prev.innerHTML = `<img src="${item.gambar_url}" alt="preview" onerror="this.parentElement.innerHTML='<span style=\'color:var(--muted);font-size:0.8rem\'>Gambar sedia ada</span>'">`;
+      removeBtn.style.display = 'block';
+      delBtn.style.display = 'block';
+    }
     document.getElementById('f-ada').checked    = item.ada;
     document.getElementById('f-special').checked = item.special;
     document.getElementById('item-modal').classList.add('open');
@@ -938,15 +1009,52 @@
   }
 
   function clearForm() {
-    ['f-nama','f-harga','f-hot','f-iced','f-harga-asal','f-desc','f-gambar','f-gambar-base64','f-gambar-mime','f-gambar-filename'].forEach(id => document.getElementById(id).value = '');
-    onUrlInput();
+    ['f-nama','f-harga','f-hot','f-iced','f-harga-asal','f-desc','f-gambar'].forEach(id => document.getElementById(id).value = '');
+    resetImageUpload();
     document.getElementById('f-kat').value = 'minuman';
+    onKatChange('minuman');
     document.getElementById('f-ada').checked = true;
     document.getElementById('f-special').checked = false;
   }
 
 
 
+
+  // ── Delete uploaded image ──
+  async function deleteUploadedImage() {
+    if (!editRow) return;
+    const btn = document.getElementById('btn-delete-uploaded');
+    btn.textContent = 'Membuang...';
+    btn.disabled = true;
+    try {
+      const res  = await postAction({ action: 'update', row: editRow, item: { ...allItems.find(i => i._row === editRow), gambar_url: '' } });
+      const data = await res.json();
+      if (data.error) { showToast(data.error, true); btn.textContent = '🗑 Buang gambar yang tersimpan'; btn.disabled = false; return; }
+      // Update local data
+      const item = allItems.find(i => i._row === editRow);
+      if (item) item.gambar_url = '';
+      document.getElementById('f-gambar').value = '';
+      resetImageUpload();
+      btn.style.display = 'none';
+      showToast('Gambar dibuang ✓');
+      renderTable();
+    } catch(e) {
+      btn.textContent = '🗑 Buang gambar yang tersimpan';
+      btn.disabled = false;
+      showToast('Gagal buang gambar.', true);
+    }
+  }
+
+  // ── Kategori change ──
+  function onKatChange(kat) {
+    const show = kat === 'minuman';
+    document.getElementById('row-hot').style.display   = show ? '' : 'none';
+    document.getElementById('row-iced').style.display  = show ? '' : 'none';
+    if (!show) {
+      document.getElementById('f-hot').value  = '';
+      document.getElementById('f-iced').value = '';
+    }
+  }
 
   // ── Image viewer ──
   function openImgView(url) {
@@ -977,13 +1085,15 @@
       document.getElementById('f-gambar-base64').value   = base64;
       document.getElementById('f-gambar-mime').value     = mime;
       document.getElementById('f-gambar-filename').value = file.name;
-      document.getElementById('f-gambar').value = ''; // clear URL field
+      document.getElementById('f-gambar').value = '';
 
       // Preview
       const wrap = document.getElementById('img-upload-wrap');
       const prev = document.getElementById('img-preview');
+      const removeBtn = document.getElementById('btn-remove-img');
       wrap.classList.add('has-img');
       prev.innerHTML = `<img src="${dataUrl}" alt="preview">`;
+      removeBtn.style.display = 'block';
     };
     reader.readAsDataURL(file);
   }
@@ -1008,12 +1118,35 @@
     if (!base64) return null;
 
     const prev = document.getElementById('img-preview');
+    const savedPreview = prev.innerHTML; // save current preview
     prev.innerHTML = `<div class="img-uploading"><div class="spinner"></div> Mengupload ke Drive...</div>`;
 
     const res  = await postAction({ action: 'upload_image', base64, mimeType: mime, fileName: filename });
     const data = await res.json();
-    if (data.error) { showToast('Gagal upload: ' + data.error, true); return null; }
+    if (data.error) {
+      prev.innerHTML = savedPreview; // restore preview on error
+      showToast('Gagal upload: ' + data.error, true);
+      return null;
+    }
+    // Reset upload state after success
+    resetImageUpload();
     return data.url;
+  }
+
+  function resetImageUpload() {
+    const wrap = document.getElementById('img-upload-wrap');
+    const prev = document.getElementById('img-preview');
+    const removeBtn = document.getElementById('btn-remove-img');
+    wrap.classList.remove('has-img');
+    prev.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Klik untuk pilih gambar</span><span class="img-hint">JPG, PNG — maks 5MB</span>`;
+    removeBtn.style.display = 'none';
+    ['f-gambar-base64','f-gambar-mime','f-gambar-filename'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('f-gambar-file').value = '';
+  }
+
+  function removeImage() {
+    resetImageUpload();
+    document.getElementById('f-gambar').value = '';
   }
 
   async function saveItem() {
@@ -1046,15 +1179,21 @@
 
     const action = editRow ? 'update' : 'add';
     const payload = editRow ? { action, row: editRow, item } : { action, item };
-    const res  = await postAction(payload);
-    const data = await res.json();
-    btn.textContent = 'Simpan';
-    btn.disabled = false;
-
-    if (data.error) { showToast(data.error, true); return; }
-    closeModal();
-    showToast(editRow ? 'Item dikemaskini ✓' : 'Item baru ditambah ✓');
-    await loadMenu();
+    try {
+      const res  = await postAction(payload);
+      const data = await res.json();
+      btn.textContent = 'Simpan';
+      btn.disabled = false;
+      if (data.error) { showToast(data.error, true); return; }
+      const wasEditing = editRow;
+      closeModal();
+      showToast(wasEditing ? 'Item dikemaskini ✓' : 'Item baru ditambah ✓');
+      await loadMenu();
+    } catch(e) {
+      btn.textContent = 'Simpan';
+      btn.disabled = false;
+      showToast('Gagal sambung ke server. Cuba semula.', true);
+    }
   }
 
   // ── Delete ──
@@ -1071,12 +1210,14 @@
   }
 
   async function confirmDelete() {
-    const res  = await postAction({ action: 'delete', row: deleteRow });
-    const data = await res.json();
-    closeConfirm();
-    if (data.error) { showToast(data.error, true); return; }
-    showToast(`"${deleteName}" dipadam.`);
-    await loadMenu();
+    try {
+      const res  = await postAction({ action: 'delete', row: deleteRow });
+      const data = await res.json();
+      closeConfirm();
+      if (data.error) { showToast(data.error, true); return; }
+      showToast(`"${deleteName}" dipadam.`);
+      await loadMenu();
+    } catch(e) { closeConfirm(); showToast('Gagal sambung. Cuba semula.', true); }
   }
 
   // ── API call ──
