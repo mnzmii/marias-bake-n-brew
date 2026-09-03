@@ -1350,9 +1350,24 @@
       </a>`;
   }
 
+  function patchTikTokIframe(iframe) {
+    if (!iframe || iframe.dataset.allowPatched) return;
+    iframe.setAttribute('allow', 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; clipboard-write; web-share');
+    iframe.dataset.allowPatched = '1';
+  }
+
+  function observeTikTokCard(card) {
+    const obs = new MutationObserver(() => {
+      card.querySelectorAll('iframe').forEach(patchTikTokIframe);
+    });
+    obs.observe(card, { childList: true, subtree: true });
+    card.querySelectorAll('iframe').forEach(patchTikTokIframe);
+  }
+
   async function loadTikTokEmbeds() {
     const cards = document.querySelectorAll('[data-tiktok][data-url]');
     for (const card of cards) {
+      observeTikTokCard(card);
       const url = card.dataset.url;
       try {
         const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
@@ -1360,8 +1375,6 @@
         const data = await res.json();
         if (data.html) {
           card.innerHTML = data.html;
-          const iframe = card.querySelector('iframe');
-          if (iframe) iframe.setAttribute('allow', 'accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; clipboard-write');
         } else {
           throw new Error('No embed html');
         }
