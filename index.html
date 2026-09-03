@@ -896,16 +896,6 @@
       height: 16px;
     }
 
-    /* ═══════════════════════════════════
-     MODAL
-     ═══════════════════════════════════ */
-      border: 1.5px solid var(--gold);
-      border-radius: 16px;
-      overflow: hidden;
-      background: linear-gradient(135deg, rgba(201, 168, 76, 0.06), rgba(201, 168, 76, 0.02));
-      cursor: pointer;
-    }
-
     .sp-slide {
       display: none;
       padding: 20px 24px 24px;
@@ -2129,44 +2119,6 @@
         const url = card.dataset.url;
         try {
           const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
-          if (!res.ok) throw new Error('oEmbed failed');
-          const data = await res.json();
-          if (data.html) {
-            card.innerHTML = data.html;
-          } else {
-            throw new Error('No embed html');
-          }
-        } catch (e) {
-          tiktokFallback(card, url);
-        }
-      }
-      loadTikTokEmbedScript();
-      setTimeout(() => {
-        cards.forEach(card => {
-          if (!card.querySelector('iframe')) tiktokFallback(card, card.dataset.url);
-        });
-      }, 5000);
-    }
-    if ('IntersectionObserver' in window) {
-      const obs = new IntersectionObserver((entries) => {
-        if (entries.some(e => e.isIntersecting)) {
-          loadTikTokEmbeds();
-          obs.disconnect();
-        }
-      }, { rootMargin: '200px' });
-      const grid = document.getElementById('tiktok-grid');
-      if (grid) obs.observe(grid);
-    } else {
-      loadTikTokEmbeds();
-    }
-  </script>
-
-
-
-</body>
-
-</html>
-llonst res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
           if (!res.ok) throw new Error('oEmbed failed');
           const data = await res.json();
           if (data.html) {
