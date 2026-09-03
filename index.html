@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maria's Bake & Brew — Menu Hari Ini</title>
+<title>Maria's Bake & Brew — Café in Muar | Menu, Reviews & Location</title>
+<meta name="description" content="Maria's Bake & Brew — beverages, desserts, bread, cookies & food in Muar. See our menu, read customer reviews, and find us at No. 16, Jalan Abdullah.">
+<link rel="canonical" href="https://mariasbakeandbrew.com/">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/social-proof.css">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -23,8 +27,6 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { background: var(--cream); color: var(--text-dark); font-family: 'Jost', sans-serif; font-weight: 300; }
 
-  .top-stripe { height: 6px; background-image: repeating-linear-gradient(90deg, var(--green-deep) 0px, var(--green-deep) 18px, var(--gold) 18px, var(--gold) 22px); }
-
   header { background: var(--white); border-bottom: 1px solid var(--card-border); box-shadow: 0 2px 24px rgba(30,61,47,0.06); }
   .header-inner { max-width: 1100px; margin: 0 auto; padding: 28px 40px 24px; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
   .logo-block { display: flex; align-items: center; gap: 18px; }
@@ -43,14 +45,14 @@
   .notice-bar { background: var(--gold); text-align: center; padding: 10px 20px; font-size: 0.78rem; letter-spacing: 0.08em; color: var(--green-deep); font-weight: 500; }
   .notice-bar span { opacity: 0.7; margin: 0 8px; }
 
-  .hero { background: var(--green-deep); position: relative; overflow: hidden; }
+  .hero { background: var(--green-deep); position: relative; overflow: hidden; padding-bottom: 30px; }
   .hero::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 80% 50%, rgba(201,168,76,0.08) 0%, transparent 60%), radial-gradient(circle at 10% 80%, rgba(74,124,95,0.2) 0%, transparent 50%); }
   .hero::after { content: ''; position: absolute; right: 0; top: 0; bottom: 0; width: 340px; background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 28px 28px; mask-image: linear-gradient(to left, rgba(0,0,0,0.6), transparent); }
-  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 64px 40px 56px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; position: relative; z-index: 1; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; padding: 110px 40px 56px; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; position: relative; z-index: 1; }
   .hero-text h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.8rem, 5vw, 4.2rem); font-weight: 600; color: var(--cream); line-height: 1.05; }
   .hero-text h2 em { font-style: italic; color: var(--gold-light); }
   .hero-text p { color: rgba(248,243,235,0.6); margin-top: 14px; font-size: 0.9rem; line-height: 1.8; max-width: 420px; font-weight: 300; }
-  .hero-meta { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px 30px; backdrop-filter: blur(8px); min-width: 220px; }
+  .hero-meta { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 28px 30px; backdrop-filter: blur(8px); min-width: 220px; position: relative; z-index: 4; }
   .meta-row { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 0.8rem; }
   .meta-row:last-child { border-bottom: none; padding-bottom: 0; }
 
@@ -62,6 +64,22 @@
   .tutup-dot { background:#E07070; }
   @keyframes pulse-green { 0%{box-shadow:0 0 0 0 rgba(127,217,154,0.6)} 70%{box-shadow:0 0 0 7px rgba(127,217,154,0)} 100%{box-shadow:0 0 0 0 rgba(127,217,154,0)} }
   .meta-value.tutup { color: rgba(248,243,235,0.45); }
+
+  /* Hero awning */
+  .hero-awning {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    width: 100%;
+    height: 88px;
+    display: block;
+    z-index: 3;
+    pointer-events: none;
+    filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2));
+    background-repeat: repeat-x;
+    background-size: 60px 88px;
+    background-position: left top;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='88' viewBox='0 0 60 88'%3E%3Cdefs%3E%3Cpattern id='s' x='0' y='0' width='60' height='48' patternUnits='userSpaceOnUse'%3E%3Crect x='0' y='0' width='15' height='48' fill='%23F8F3EB'/%3E%3Crect x='15' y='0' width='15' height='48' fill='%231E3D2F'/%3E%3Crect x='30' y='0' width='15' height='48' fill='%23F8F3EB'/%3E%3Crect x='45' y='0' width='15' height='48' fill='%23C9A84C'/%3E%3C/pattern%3E%3C/defs%3E%3Cpath d='M0,0 L60,0 L60,48 A30,30 0 0 1 0,48 Z' fill='url(%23s)'/%3E%3C/svg%3E");
+  }
 
   .filter-wrap { max-width: 1100px; margin: 0 auto; padding: 32px 40px 0; display: flex; gap: 8px; flex-wrap: wrap; }
   .ftab { padding: 8px 22px; border-radius: 100px; border: 1.5px solid var(--card-border); background: var(--white); cursor: pointer; font-family: 'Jost', sans-serif; font-size: 0.8rem; color: var(--text-muted); letter-spacing: 0.06em; transition: all 0.2s; font-weight: 400; }
@@ -96,6 +114,34 @@
   .ci-minuman, .ci-dessert, .ci-roti, .ci-biskut, .ci-makanan, .ci-lain { background: #EDE5D4; }
 
   .ribbon { position: absolute; top: 12px; right: -30px; background: var(--text-dark); color: var(--cream); font-size: 0.6rem; letter-spacing: 0.1em; padding: 5px 38px; transform: rotate(45deg); text-transform: uppercase; font-weight: 500; z-index: 1; }
+
+  .ribbon-signature {
+    position: absolute;
+    top: 14px;
+    left: -44px;
+    background: var(--gold);
+    color: var(--green-deep);
+    font-family: 'Jost', sans-serif;
+    font-size: 0.60rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 5px 40px;
+    transform: rotate(-45deg);
+    transform-origin: center;
+    z-index: 2;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    pointer-events: none;
+  }
+  .ribbon-signature::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    border: 4px solid transparent;
+    border-top-color: #8a7330;
+    border-right-color: #8a7330;
+  }
   .card-body { padding: 18px 20px 20px; display: flex; flex-direction: column; flex: 1; }
   .card-body h4 { font-family: 'Cormorant Garamond', serif; font-size: 1.15rem; font-weight: 600; color: var(--green-deep); line-height: 1.2; }
   .card-body p { font-size: 0.8rem; color: var(--text-muted); margin-top: 5px; line-height: 1.6; font-weight: 300; }
@@ -116,7 +162,6 @@
   .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--cream); font-weight: 600; }
   .footer-logo span { display: block; font-family: 'Jost', sans-serif; font-size: 0.68rem; color: var(--gold); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 4px; font-weight: 300; }
   footer a { color: var(--gold); text-decoration: none; }
-  .bottom-stripe { height: 6px; background-image: repeating-linear-gradient(90deg, var(--green-deep) 0px, var(--green-deep) 18px, var(--gold) 18px, var(--gold) 22px); }
 
   
 
@@ -544,12 +589,9 @@
   /* Card clickable */
   .card { cursor: pointer; }
 
-  /* ── Tablet (600px–720px): sidebar kiri, grid 2 col ── */
-  /* ── Phone kecil (<480px): sidebar vertikal atas, grid 1 kolum ── */
-
+  /* ── Mobile (≤720px) ── */
   @media (max-width: 720px) {
     .header-inner { flex-wrap: wrap; padding-left: 16px; padding-right: 16px; }
-    .footer-inner { flex-direction: column; text-align: center; gap: 12px; padding-left: 16px; padding-right: 16px; }
     .hero-inner { grid-template-columns: 1fr; padding-left: 16px; padding-right: 16px; }
     .hero-meta {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -572,15 +614,13 @@
     .card-body p { display: none; }
     .price { font-size: 0.88rem; }
     .avail-tag { font-size: 0.58rem; padding: 3px 6px; }
-  
-  
   }
 
 </style>
 </head>
 <body>
 
-<div class="top-stripe"></div>
+
 
 <header>
   <div class="header-inner">
@@ -590,66 +630,62 @@
       </div>
       <div class="logo-text">
         <h1>Maria's Bake & Brew</h1>
-        <p id="cms-tagline">Minuman · Dessert · Roti · Biskut & Kuih · Makanan — Muar</p>
+        <p id="cms-tagline">Beverages · Desserts · Bread · Cookies · Food — Muar</p>
       </div>
     </div>
     <div class="header-right">
       <nav>
-        <a href="index.html" class="active">Menu Hari Ini</a>
-        <a href="tentang-kami.html">Tentang Kami</a>
-        <a href="lokasi.html">Lokasi</a>
+        <a href="index.html" class="active" aria-current="page">Home</a>
+        <a href="index.html#section-minuman">Menu</a>
+        <a href="tentang-kami.html">About</a>
+        <a href="lokasi.html">Location</a>
       </nav>
     </div>
   </div>
 </header>
 
-<div class="notice-bar">
-  🌙 Waktu Operasi Ramadan: 4.00 ptg – 11.30 mlm
-  <span>·</span>
-  Waktu Biasa: 10.30 pg – 10.30 mlm
-</div>
-
 <div class="hero">
   <div class="hero-inner">
     <div class="hero-text">
-      <h2>Apa yang <em>ada</em><br>hari ni?</h2>
-      <p id="cms-notis">Menu kami berubah setiap hari — terutama dessert, roti, kuih & biskut. Semak di sini sebelum datang supaya awak tak terlepas kegemaran awak.</p>
+      <h2>Our <em>menu,</em><br>made with love.</h2>
+      <p id="cms-notis">Freshly crafted every day in Muar — explore our daily selection of refreshing beverages, sweet desserts, warm bread, cookies, and comforting food.</p>
     </div>
     <div class="hero-meta">
       <div class="meta-row">
-        <div class="meta-label">Status Kedai</div>
-        <div class="meta-value" id="kedai-status">● Semakan...</div>
-      </div>
-      <div class="meta-row">
-        <div class="meta-label">Waktu Hari Ini</div>
-        <div class="meta-value" id="kedai-waktu">—</div>
-      </div>
-      <div class="meta-row">
-        <div class="meta-label">Alamat</div>
+        <div class="meta-label">Address</div>
         <div class="meta-value">No. 16, Jalan Abdullah, Muar</div>
       </div>
       <div class="meta-row">
-        <div class="meta-label">Menu Dikemaskini</div>
-        <div class="meta-value" id="last-updated">Memuatkan...</div>
+        <div class="meta-label">Opening Hours</div>
+        <div class="meta-value">9:00 AM – 9:00 PM (daily)</div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">WhatsApp</div>
+        <div class="meta-value"><a href="https://wa.me/60177402975" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">017-740 2975</a></div>
+      </div>
+      <div class="meta-row">
+        <div class="meta-label">TikTok</div>
+        <div class="meta-value"><a href="https://www.tiktok.com/@mariasbakeandbrew" target="_blank" rel="noopener noreferrer" style="color:inherit;text-decoration:underline">@mariasbakeandbrew</a></div>
       </div>
     </div>
   </div>
+  <div class="hero-awning" aria-hidden="true"></div>
 </div>
 
 
 
 <div class="menu-layout">
 
-  <!-- SIDEBAR KATEGORI -->
+  <!-- SIDEBAR CATEGORIES -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-inner">
-      <button class="scat active" data-filter="semua">Semua</button>
-      <button class="scat" data-filter="minuman">Minuman</button>
-      <button class="scat" data-filter="dessert">Dessert</button>
-      <button class="scat" data-filter="roti">Roti</button>
-      <button class="scat" data-filter="biskut">Biskut & Kuih</button>
-      <button class="scat" data-filter="makanan">Makanan</button>
-      <button class="scat" data-filter="lain">Lain-Lain</button>
+      <button class="scat active" data-filter="semua">All</button>
+      <button class="scat" data-filter="minuman">Beverages</button>
+      <button class="scat" data-filter="dessert">Desserts</button>
+      <button class="scat" data-filter="roti">Bread</button>
+      <button class="scat" data-filter="biskut">Cookies</button>
+      <button class="scat" data-filter="makanan">Food</button>
+      <button class="scat" data-filter="lain">Others</button>
     </div>
   </div>
 
@@ -669,41 +705,41 @@
 
   <div class="loading-state" id="loading-state">
     <div class="loading-spinner"></div>
-    Memuatkan menu hari ini...
+    Loading menu...
   </div>
 
   <div class="menu-section" id="section-minuman">
-    <div class="sec-head"><div class="sec-title">🥤 Minuman</div><div class="sec-line"></div><div class="sec-count" id="count-minuman"></div></div>
+    <div class="sec-head"><div class="sec-title">🥤 Beverages</div><div class="sec-line"></div><div class="sec-count" id="count-minuman"></div></div>
     <div class="grid" id="grid-minuman"></div>
     <div class="ornament-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
   </div>
 
   <div class="menu-section" id="section-dessert">
-    <div class="sec-head"><div class="sec-title">🍰 Dessert</div><div class="sec-line"></div><div class="sec-count" id="count-dessert"></div></div>
+    <div class="sec-head"><div class="sec-title">🍰 Desserts</div><div class="sec-line"></div><div class="sec-count" id="count-dessert"></div></div>
     <div class="grid" id="grid-dessert"></div>
     <div class="ornament-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
   </div>
 
   <div class="menu-section" id="section-roti">
-    <div class="sec-head"><div class="sec-title">🍞 Roti</div><div class="sec-line"></div><div class="sec-count" id="count-roti"></div></div>
+    <div class="sec-head"><div class="sec-title">🍞 Bread</div><div class="sec-line"></div><div class="sec-count" id="count-roti"></div></div>
     <div class="grid" id="grid-roti"></div>
     <div class="ornament-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
   </div>
 
   <div class="menu-section" id="section-biskut">
-    <div class="sec-head"><div class="sec-title">🍪 Biskut & Kuih</div><div class="sec-line"></div><div class="sec-count" id="count-biskut"></div></div>
+    <div class="sec-head"><div class="sec-title">🍪 Cookies</div><div class="sec-line"></div><div class="sec-count" id="count-biskut"></div></div>
     <div class="grid" id="grid-biskut"></div>
     <div class="ornament-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
   </div>
 
   <div class="menu-section" id="section-makanan">
-    <div class="sec-head"><div class="sec-title">🍱 Makanan</div><div class="sec-line"></div><div class="sec-count" id="count-makanan"></div></div>
+    <div class="sec-head"><div class="sec-title">🍱 Food</div><div class="sec-line"></div><div class="sec-count" id="count-makanan"></div></div>
     <div class="grid" id="grid-makanan"></div>
     <div class="ornament-divider">✦ &nbsp; ✦ &nbsp; ✦</div>
   </div>
 
   <div class="menu-section" id="section-lain">
-    <div class="sec-head"><div class="sec-title">✨ Lain-Lain</div><div class="sec-line"></div><div class="sec-count" id="count-lain"></div></div>
+    <div class="sec-head"><div class="sec-title">✨ Others</div><div class="sec-line"></div><div class="sec-count" id="count-lain"></div></div>
     <div class="grid" id="grid-lain"></div>
   </div>
 
@@ -711,17 +747,156 @@
   </div><!-- end menu-content -->
 </div><!-- end menu-layout -->
 
+<!-- ═══ GOOGLE REVIEWS ═══ -->
+<section class="sp-section" id="reviews" style="background: var(--white);">
+  <div class="sp-section-head">
+    <span class="sp-eyebrow">What People Say</span>
+    <h2 class="sp-title">Loved by Muar</h2>
+    <p class="sp-subtitle">Real reviews from our guests on Google.</p>
+    <div class="reviews-rating" id="reviews-rating">
+      <div class="reviews-rating-score" data-field="score">4.9</div>
+      <div>
+        <div class="reviews-rating-stars" data-field="stars" aria-label="4.9 out of 5 stars">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        </div>
+        <div class="reviews-rating-meta" data-field="meta">Based on <a href="https://www.google.com/search?kgmid=%2Fg%2F11n457czs0&hl=en-MY&q=Maria%27s%20Bake%20and%20Brew%20%28MSBB%29" target="_blank" rel="noopener noreferrer">41 Google reviews</a></div>
+      </div>
+    </div>
+  </div>
+  <div class="reviews-grid" id="reviews-grid">
+    <article class="review-card" data-review>
+      <div class="review-stars" aria-label="5 out of 5 stars">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+      </div>
+      <p class="review-text" data-field="text">Sedap sgt semua dessert at sana, lagi2 Dubai chewy cookies... Favourite all the time. Staff friendly &amp; dpt discount.</p>
+      <div class="review-author">
+        <div class="review-avatar" data-field="initial">K</div>
+        <div>
+          <div class="review-name" data-field="name">Khairunnisa Zakaria</div>
+          <div class="review-date" data-field="date">3 months ago</div>
+        </div>
+      </div>
+    </article>
+    <article class="review-card" data-review>
+      <div class="review-stars" aria-label="5 out of 5 stars">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+      </div>
+      <p class="review-text" data-field="text">Recommended. Good service, good vibes. Matcha water is crazy delicious, worth the price.</p>
+      <div class="review-author">
+        <div class="review-avatar" data-field="initial">N</div>
+        <div>
+          <div class="review-name" data-field="name">Neyza Zaine</div>
+          <div class="review-date" data-field="date">1 month ago</div>
+        </div>
+      </div>
+    </article>
+    <article class="review-card" data-review>
+      <div class="review-stars" aria-label="5 out of 5 stars">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15 9 22 9 17 14 19 21 12 17 5 21 7 14 2 9 9 9"/></svg>
+      </div>
+      <p class="review-text" data-field="text">Strawberry matcha with Dubai chewy chocolate is delicious, I give it 100/10. Really like the matcha water, tiptop service 👍🏻</p>
+      <div class="review-author">
+        <div class="review-avatar" data-field="initial">N</div>
+        <div>
+          <div class="review-name" data-field="name">Nur Amalina</div>
+          <div class="review-date" data-field="date">2 weeks ago</div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ═══ TIKTOK VIDEOS ═══ -->
+<section class="sp-section" id="tiktok" style="background: var(--cream);">
+  <div class="sp-section-head">
+    <span class="sp-eyebrow">From Our TikTok</span>
+    <h2 class="sp-title">See it in action</h2>
+    <p class="sp-subtitle">Behind-the-counter moments, fresh bakes, and our daily specials.</p>
+  </div>
+  <div class="tiktok-grid" id="tiktok-grid">
+    <div class="tiktok-card" data-tiktok data-url="https://vt.tiktok.com/ZSqJHab5r/">
+      <div class="tiktok-placeholder">
+        <div class="tiktok-placeholder-icon">TIKTOK</div>
+        <div class="tiktok-placeholder-text">Loading video…</div>
+      </div>
+    </div>
+  </div>
+  <div class="tiktok-handle">
+    Follow us for daily updates: <a href="https://www.tiktok.com/@mariasbakeandbrew" target="_blank" rel="noopener noreferrer">@mariasbakeandbrew</a>
+  </div>
+</section>
+
+<!-- ═══ CTA SECTION ═══ -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <span class="cta-eyebrow">Plan Your Visit</span>
+    <h2 class="cta-title">Come say <em>hello</em></h2>
+    <p class="cta-text">Whisk us a message to pre-order, ask about today's bake, or just to say hi. We're here daily, 9 AM to 9 PM.</p>
+    <div class="cta-buttons">
+      <a href="https://wa.me/60177402975?text=Hi%20Maria's!" target="_blank" rel="noopener noreferrer" class="cta-btn">
+        <div class="cta-btn-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 11.5a8.38 8.38 0 0 1-9 8.5 8.5 8.5 0 0 1-3.5-.7L3 21l1.7-5.5A8.38 8.38 0 0 1 4 11.5a8.5 8.5 0 0 1 8.5-8.5h.5a8.38 8.38 0 0 1 8 8v.5Z"/>
+            <path d="M8 10h.01M12 10h.01M16 10h.01"/>
+          </svg>
+        </div>
+        <div class="cta-btn-text">
+          <span class="cta-btn-label">Message us on</span>
+          <span class="cta-btn-name">WhatsApp</span>
+          <span class="cta-btn-sub">017-740 2975</span>
+        </div>
+      </a>
+      <a href="lokasi.html" class="cta-btn">
+        <div class="cta-btn-icon">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        </div>
+        <div class="cta-btn-text">
+          <span class="cta-btn-label">Find us at</span>
+          <span class="cta-btn-name">View Location</span>
+          <span class="cta-btn-sub">No. 16, Jalan Abdullah, Muar</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="footer-inner">
     <div class="footer-logo">
       Maria's Bake & Brew
       <span>No. 16, Jalan Abdullah, Muar, Johor</span>
     </div>
-    
-    <div><a href="https://www.tiktok.com/@mariasbakeandbrew" target="_blank">TikTok @mariasbakeandbrew</a></div>
+    <nav class="footer-nav">
+      <a href="index.html">Menu</a>
+      <a href="tentang-kami.html">About</a>
+      <a href="lokasi.html">Location</a>
+    </nav>
+    <a href="https://www.tiktok.com/@mariasbakeandbrew" class="footer-social" target="_blank" rel="noopener noreferrer">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.8 20.1a6.34 6.34 0 0 0 10.86-4.43V8.71a8.16 8.16 0 0 0 4.77 1.52V6.69z"/></svg>
+      @mariasbakeandbrew
+    </a>
   </div>
+  <div class="footer-bottom">© 2026 Maria's Bake &amp; Brew. All rights reserved.</div>
 </footer>
-<div class="bottom-stripe"></div>
 
 <script>
   // ═══════════════════════════════════════════════════════════════
@@ -739,7 +914,7 @@
     const kat = d.kat || 'lain';
     const ada = d.ada === 'true';
     const EMOJI_MAP = { minuman:'🥤', dessert:'🍰', roti:'🍞', biskut:'🍪', makanan:'🍱', lain:'✨' };
-    const KAT_LABEL = { minuman:'Minuman', dessert:'Dessert', roti:'Roti', biskut:'Biskut & Kuih', makanan:'Makanan', lain:'Lain-Lain' };
+    const KAT_LABEL = { minuman:'Beverages', dessert:'Desserts', roti:'Bread', biskut:'Cookies', makanan:'Food', lain:'Others' };
 
     // Image
     const imgWrap = document.getElementById('modal-img-wrap');
@@ -769,7 +944,7 @@
       priceEl.innerHTML = `RM ${d.harga || '—'}`;
     }
     const avail = document.getElementById('modal-avail');
-    avail.textContent = ada ? 'Ada' : 'Habis';
+    avail.textContent = ada ? 'Available' : 'Sold out';
     avail.className = 'modal-avail ' + (ada ? 'ada' : 'habis');
 
     document.getElementById('modal-overlay').classList.add('open');
@@ -809,7 +984,7 @@
 
     const jadual = isRamadan ? JADUAL.ramadan : JADUAL.biasa;
 
-    // Tutup pada hari tertentu? Tambah di sini
+    // Closed on certain days? Add here
     // const tutupHari = []; // contoh: [1] untuk tutup Isnin
 
     const isBuka = time >= jadual.buka && time < jadual.tutup;
@@ -818,10 +993,10 @@
 
     if (statusEl) {
       if (isBuka) {
-        statusEl.innerHTML   = '<span class="status-dot open-dot"></span> Buka';
+        statusEl.innerHTML   = '<span class="status-dot open-dot"></span> Open';
         statusEl.className    = 'meta-value';
       } else {
-        statusEl.innerHTML   = '<span class="status-dot tutup-dot"></span> Tutup';
+        statusEl.innerHTML   = '<span class="status-dot tutup-dot"></span> Closed';
         statusEl.className    = 'meta-value';
       }
     }
@@ -846,6 +1021,8 @@
     const hot = item.harga_hot || '';
     const iced = item.harga_iced || '';
     const hargaBiasa = item.harga || '';
+    const isSpecial = item.special === true || item.special === 'TRUE' || item.special === 'true';
+    const ribbon = isSpecial ? `<span class="ribbon-signature">Signature</span>` : '';
 
     // Build price display
     let priceHTML = '';
@@ -869,21 +1046,27 @@
       data-gambar="${gambarSafe}" onclick="openModal(this)">
       <div class="card-img ci-${kat}">
         ${imgTag}
-        ${!ada ? '<div class="ribbon">Habis</div>' : ''}
+        ${ribbon}
+        ${!ada ? '<div class="ribbon">Sold out</div>' : ''}
       </div>
       <div class="card-body">
         <h4>${item.nama || '—'}</h4>
         <p>${item.deskripsi || ''}</p>
         <div class="card-foot">
           ${priceHTML}
-          <span class="avail-tag ${ada ? 'ada' : 'habis'}">${ada ? 'Ada' : 'Habis'}</span>
+          <span class="avail-tag ${ada ? 'ada' : 'habis'}">${ada ? 'Available' : 'Sold out'}</span>
         </div>
       </div>
     </div>`;
   }
 
+  function isVisible(item) {
+    if (item.ada === undefined || item.ada === null) return true;
+    return item.ada === true || item.ada === 'TRUE' || item.ada === 'true';
+  }
+
   function renderSection(kat, items) {
-    const filtered = items.filter(i => i.kategori === kat);
+    const filtered = items.filter(i => i.kategori === kat && isVisible(i));
     const section  = document.getElementById(`section-${kat}`);
     const grid     = document.getElementById(`grid-${kat}`);
     const count    = document.getElementById(`count-${kat}`);
@@ -891,8 +1074,8 @@
     if (filtered.length === 0) { section.classList.remove('has-items'); return; }
     section.classList.add('has-items');
     grid.innerHTML = filtered.map(cardHTML).join('');
-    const adaCount = filtered.filter(i => i.ada === true || i.ada === 'TRUE' || i.ada === 'true').length;
-    count.textContent = `${adaCount} ada · ${filtered.length} item`;
+    const adaCount = filtered.filter(isVisible).length;
+    count.textContent = `${filtered.length} item${filtered.length === 1 ? '' : 's'}`;
   }
 
   function renderSpecial(items) {
@@ -937,7 +1120,7 @@
         data-nama="${item.nama || ''}" data-desc="${descSafe}"
         data-harga="${harga}" data-harga-hot="${hot}" data-harga-iced="${iced}"
         data-gambar="${gambarSafe}">
-        <div class="sp-banner-label">✦ SPECIAL HARI INI ✦</div>
+        <div class="sp-banner-label">✦ SIGNATURE ✦</div>
         <div class="sp-banner-inner" onclick="openModal(this.closest('.sp-slide'))">
           <div class="sp-banner-img ci-${kat}">${imgHTML}</div>
           <div class="sp-banner-info">
@@ -1026,8 +1209,8 @@
     const masa = new Date().toLocaleTimeString('ms-MY', { hour: '2-digit', minute: '2-digit' });
     const el = document.getElementById('last-updated');
     const elMobile = document.getElementById('last-updated-mobile');
-    if (el) el.textContent = `Hari ini, ${masa}`;
-    if (elMobile) elMobile.textContent = `Hari ini, ${masa}`;
+    if (el) el.textContent = `Today, ${masa}`;
+    if (elMobile) elMobile.textContent = `Today, ${masa}`;
   }
 
   async function loadMenu() {
@@ -1044,31 +1227,31 @@
       renderSpecial(items);
       updateLastUpdated();
     } catch (e) {
-      console.error('Gagal load menu:', e);
+      console.error('Failed to load menu:', e);
       document.getElementById('loading-state').innerHTML =
-        '<p style="color:#c0392b;padding:40px">⚠️ Gagal muatkan menu. Sila refresh halaman.</p>';
+        '<p style="color:#c0392b;padding:40px">⚠️ Failed to load menu. Please refresh the page.</p>';
     }
   }
 
   function loadSampleData() {
     const sample = [
-      { nama:'Flat White',              kategori:'minuman', harga:'12', deskripsi:'Espresso double shot dengan steamed milk, creamy & smooth',       ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Latte (Hot)',             kategori:'minuman', harga:'12', deskripsi:'Espresso dengan steamed milk, classic & smooth',                  ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Latte (Iced)',            kategori:'minuman', harga:'13', deskripsi:'Espresso dengan fresh milk atas ais',                             ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Mojito Mint Lime',        kategori:'minuman', harga:'14', deskripsi:'Minuman segar mint & limau dengan soda, tiada alkohol',           ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Ice Chocolate',           kategori:'minuman', harga:'13', deskripsi:'Belgian chocolate blend dengan fresh milk & ais',                 ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Ice Chocolate Hazelnut',  kategori:'minuman', harga:'15', deskripsi:'Ice chocolate dengan hazelnut syrup & whipped cream',             ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Caramel Frappe',          kategori:'minuman', harga:'16', deskripsi:'Blended coffee frappe dengan caramel drizzle & whipped cream',    ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Strawberry Milkshake',    kategori:'minuman', harga:'15', deskripsi:'Fresh strawberry blended dengan creamy milk & vanilla ice cream', ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Burnt Basque Cheesecake', kategori:'dessert', harga:'18', deskripsi:'Creamy dalam, slightly charred di luar — classic & popular',      ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Pavlova',                 kategori:'dessert', harga:'20', deskripsi:'Meringue crispy luar soft dalam, dengan fresh cream & buah',       ada:true,  gambar_url:'', special:true,  harga_asal:'25' },
-      { nama:'Dubai Chewy Mochi',       kategori:'dessert', harga:'12', deskripsi:'Mochi lembut dengan pistachio cream filling',                     ada:false, gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Creampuff',               kategori:'dessert', harga:'8',  deskripsi:'Choux pastry dengan vanilla custard filling',                     ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Roti Bakar Mentega',      kategori:'roti',    harga:'7',  deskripsi:'Roti bakar rangup dengan salutan mentega & gula',                 ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Roti Sarang Lebah',       kategori:'roti',    harga:'12', deskripsi:'Roti lembut dengan honey butter drizzle, warm & fluffy',          ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Classic Butter Cookies',  kategori:'biskut',  harga:'24', deskripsi:'Homemade butter cookies, crispy & melt-in-mouth. Tin of 12.',     ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Kuih Lapis',              kategori:'biskut',  harga:'15', deskripsi:'Kuih lapis tradisional, soft & chewy',                            ada:true,  gambar_url:'', special:false, harga_asal:'' },
-      { nama:'Nasi Lemak Bungkus',      kategori:'makanan', harga:'8',  deskripsi:'Nasi lemak dengan sambal, ikan bilis & telur rebus',              ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Flat White',              kategori:'minuman', harga:'12', deskripsi:'Double-shot espresso with steamed milk, creamy & smooth',           ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Latte (Hot)',             kategori:'minuman', harga:'12', deskripsi:'Espresso with steamed milk, classic & smooth',                      ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Latte (Iced)',            kategori:'minuman', harga:'13', deskripsi:'Espresso with fresh milk over ice',                                 ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Mojito Mint Lime',        kategori:'minuman', harga:'14', deskripsi:'Refreshing mint & lime with soda, alcohol-free',                    ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Ice Chocolate',           kategori:'minuman', harga:'13', deskripsi:'Belgian chocolate blend with fresh milk & ice',                     ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Ice Chocolate Hazelnut',  kategori:'minuman', harga:'15', deskripsi:'Ice chocolate with hazelnut syrup & whipped cream',                 ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Caramel Frappe',          kategori:'minuman', harga:'16', deskripsi:'Blended coffee frappe with caramel drizzle & whipped cream',        ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Strawberry Milkshake',    kategori:'minuman', harga:'15', deskripsi:'Fresh strawberry blended with creamy milk & vanilla ice cream',     ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Burnt Basque Cheesecake', kategori:'dessert', harga:'18', deskripsi:'Creamy inside, slightly charred outside — classic & popular',        ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Pavlova',                 kategori:'dessert', harga:'20', deskripsi:'Crispy meringue outside, soft inside, with fresh cream & fruits',    ada:true,  gambar_url:'', special:true,  harga_asal:'25' },
+      { nama:'Dubai Chewy Mochi',       kategori:'dessert', harga:'12', deskripsi:'Soft mochi with pistachio cream filling',                           ada:false, gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Creampuff',               kategori:'dessert', harga:'8',  deskripsi:'Choux pastry with vanilla custard filling',                         ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Roti Bakar Mentega',      kategori:'roti',    harga:'7',  deskripsi:'Crispy toast with butter & sugar',                                  ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Roti Sarang Lebah',       kategori:'roti',    harga:'12', deskripsi:'Soft bun with honey butter drizzle, warm & fluffy',                 ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Classic Butter Cookies',  kategori:'biskut',  harga:'24', deskripsi:'Homemade butter cookies, crispy & melt-in-mouth. Tin of 12.',        ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Kuih Lapis',              kategori:'biskut',  harga:'15', deskripsi:'Traditional layered kuih, soft & chewy',                            ada:true,  gambar_url:'', special:false, harga_asal:'' },
+      { nama:'Nasi Lemak Bungkus',      kategori:'makanan', harga:'8',  deskripsi:'Nasi lemak with sambal, anchovies & boiled egg',                    ada:true,  gambar_url:'', special:false, harga_asal:'' },
     ];
     hideLoading();
     KATEGORI.forEach(kat => renderSection(kat, sample));
@@ -1090,7 +1273,7 @@
         else section.style.display = filter === kat ? 'block' : 'none';
       });
 
-      // Ada stok filter
+      // Available stock filter
       document.querySelectorAll('.card').forEach(card => {
         card.style.display = (filter === 'ada' && card.dataset.ada !== 'true') ? 'none' : '';
       });
@@ -1109,6 +1292,67 @@
   });
 
   loadMenu();
+
+  /* ── TikTok embeds (oEmbed + embed.js) ── */
+  let tiktokScriptLoaded = false;
+  function loadTikTokEmbedScript() {
+    if (tiktokScriptLoaded) {
+      if (window.tiktokEmbed && window.tiktokEmbed.lib && window.tiktokEmbed.lib.render) {
+        window.tiktokEmbed.lib.render(document.querySelectorAll('.tiktok-embed'));
+      }
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = 'https://www.tiktok.com/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+    tiktokScriptLoaded = true;
+  }
+
+  function tiktokFallback(card, url) {
+    card.innerHTML = `
+      <a href="${url}" target="_blank" rel="noopener noreferrer" class="tiktok-placeholder" style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;text-decoration:none;">
+        <div class="tiktok-placeholder-icon">TIKTOK</div>
+        <div class="tiktok-placeholder-text">Watch on TikTok</div>
+      </a>`;
+  }
+
+  async function loadTikTokEmbeds() {
+    const cards = document.querySelectorAll('[data-tiktok][data-url]');
+    for (const card of cards) {
+      const url = card.dataset.url;
+      try {
+        const res = await fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(url)}`);
+        if (!res.ok) throw new Error('oEmbed failed');
+        const data = await res.json();
+        if (data.html) {
+          card.innerHTML = data.html;
+        } else {
+          throw new Error('No embed html');
+        }
+      } catch (e) {
+        tiktokFallback(card, url);
+      }
+    }
+    loadTikTokEmbedScript();
+    setTimeout(() => {
+      cards.forEach(card => {
+        if (!card.querySelector('iframe')) tiktokFallback(card, card.dataset.url);
+      });
+    }, 5000);
+  }
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) {
+        loadTikTokEmbeds();
+        obs.disconnect();
+      }
+    }, { rootMargin: '200px' });
+    const grid = document.getElementById('tiktok-grid');
+    if (grid) obs.observe(grid);
+  } else {
+    loadTikTokEmbeds();
+  }
 </script>
 
 
