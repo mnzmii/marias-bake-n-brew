@@ -2,6 +2,13 @@
 const CACHE = 'mbb-admin-v1';
 const ASSETS = [
   './admin.html',
+  './admin-icon-192.png',
+  './admin-icon-512.png',
+  './admin-manifest.json',
+  './favicon.ico',
+  './favicon-16.png',
+  './favicon-32.png',
+  './favicon-180.png',
   'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@300;400;500;600&display=swap'
 ];
 
@@ -26,7 +33,6 @@ self.addEventListener('fetch', e => {
   // Skip non-GET and Apps Script requests (kena online untuk API)
   if (e.request.method !== 'GET') return;
   if (e.request.url.includes('script.google.com')) return;
-  if (e.request.url.includes('api.remove.bg')) return;
 
   e.respondWith(
     fetch(e.request)
