@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin — Maria's Bake & Brew</title>
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="MBB Admin">
-<meta name="theme-color" content="#1E3D2F">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MBB Admin">
+  <meta name="theme-color" content="#1E3D2F">
 <link rel="manifest" href="admin-manifest.json">
 <link rel="apple-touch-icon" href="admin-icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -35,16 +36,20 @@
 
   /* ── Image Viewer ── */
   .imgview-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.85);
-    z-index: 400;
-    align-items: center;
-    justify-content: center;
+    width: auto;
+    height: auto;
+    max-width: 92vw;
+    max-height: 88vh;
+    padding: 0;
+    border: none;
+    background: transparent;
     cursor: zoom-out;
+    overflow: visible;
+  }
+  .imgview-overlay::backdrop {
+    background: rgba(0,0,0,0.85);
     backdrop-filter: blur(6px);
   }
-  .imgview-overlay.open { display: flex; }
   .imgview-overlay img {
     max-width: 90vw;
     max-height: 85vh;
@@ -56,6 +61,7 @@
   .imgview-close {
     position: fixed;
     top: 16px; right: 20px;
+    z-index: 401;
     background: rgba(255,255,255,0.15);
     border: none;
     color: white;
@@ -310,16 +316,22 @@
 
   /* ── Modal ── */
   .modal-overlay {
-    display: none;
-    position: fixed; inset: 0;
+    width: min(92vw, 560px);
+    max-height: 90vh;
+    padding: 0;
+    border: none;
+    border-radius: 18px;
+    background: var(--cream);
+    color: var(--text);
+  }
+  .modal-overlay::backdrop {
     background: rgba(0,0,0,0.45);
-    z-index: 200;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
     backdrop-filter: blur(4px);
   }
-  .modal-overlay.open { display: flex; }
+  .modal-overlay[open] {
+    animation: modalIn 0.25s cubic-bezier(.2,.8,.3,1);
+  }
+  @keyframes modalIn { from{opacity:0;transform:scale(0.95) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
   .modal-box {
     background: var(--cream);
     border-radius: 18px;
@@ -410,14 +422,16 @@
 
   /* ── Confirm dialog ── */
   .confirm-overlay {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
+    width: min(92vw, 340px);
+    padding: 0;
+    border: none;
+    border-radius: 14px;
+    background: var(--white);
+    color: var(--text);
   }
-  .confirm-overlay.open { display: flex; }
+  .confirm-overlay::backdrop {
+    background: rgba(0,0,0,0.4);
+  }
   .confirm-box {
     background: var(--white);
     border-radius: 14px;
@@ -548,18 +562,17 @@
     .btn-edit, .btn-del { padding: 6px 14px; font-size: 0.8rem; }
 
     /* Modal */
-    .modal-overlay { padding: 0; align-items: flex-end; }
-    .modal-box {
-      border-radius: 18px 18px 0 0;
+    .modal-overlay {
+      width: 100%;
+      max-width: none;
       max-height: 92vh;
+      border-radius: 18px 18px 0 0;
+      margin-top: auto;
     }
     .modal-head { padding: 16px 20px; border-radius: 18px 18px 0 0; }
     .modal-body { padding: 16px 20px; }
     .modal-foot { padding: 0 20px 20px; }
     .form-grid { grid-template-columns: 1fr; gap: 12px; }
-
-    /* Confirm */
-    .confirm-box { margin: 16px; border-radius: 14px; }
   }
 
   @media (max-width: 380px) {
@@ -575,9 +588,9 @@
   <div class="login-box">
     <div class="login-logo">Maria's Bake & Brew</div>
     <div class="login-sub">Admin Panel</div>
-    <input type="password" id="login-pw" placeholder="Password" autocomplete="off">
+    <input type="password" id="login-pw" placeholder="Password" autocomplete="off" aria-label="Password">
 
-    <button class="btn-login" onclick="doLogin()">Log Masuk</button>
+    <button class="btn-login" onclick="doLogin()">Log In</button>
     <div class="login-error" id="login-error"></div>
   </div>
 </div>
@@ -586,7 +599,7 @@
 <div id="app">
   <div class="topbar">
     <div class="topbar-brand">Maria's Bake & Brew <span>Admin</span></div>
-    <button class="btn-logout" onclick="doLogout()">Log Keluar</button>
+    <button class="btn-logout" onclick="doLogout()">Log Out</button>
   </div>
 
   <div class="main">
@@ -594,19 +607,19 @@
     <!-- Stats -->
     <div class="stats">
       <div class="stat-card">
-        <div class="stat-label">Jumlah Item</div>
+        <div class="stat-label">Total Items</div>
         <div class="stat-val" id="stat-total">—</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Ada Stok</div>
-        <div class="stat-val" id="stat-ada">—</div>
+        <div class="stat-label">Visible</div>
+        <div class="stat-val" id="stat-visible">—</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Habis Stok</div>
-        <div class="stat-val" id="stat-habis">—</div>
+        <div class="stat-label">Hidden</div>
+        <div class="stat-val" id="stat-hidden">—</div>
       </div>
       <div class="stat-card">
-        <div class="stat-label">Special Hari Ini</div>
+        <div class="stat-label">Signature Items</div>
         <div class="stat-val" id="stat-special">—</div>
       </div>
     </div>
@@ -615,112 +628,110 @@
     <div class="toolbar">
       <button class="btn-add" onclick="openAddModal()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        Tambah Item
+        Add Item
       </button>
       <select class="filter-select" id="filter-kat" onchange="renderTable()">
-        <option value="">Semua Kategori</option>
-        <option value="minuman">Minuman</option>
-        <option value="dessert">Dessert</option>
-        <option value="roti">Roti</option>
-        <option value="biskut">Biskut & Kuih</option>
-        <option value="makanan">Makanan</option>
-        <option value="lain">Lain-Lain</option>
+        <option value="">All Categories</option>
+        <option value="minuman">Beverages</option>
+        <option value="dessert">Desserts</option>
+        <option value="roti">Bread</option>
+        <option value="biskut">Cookies & Pastries</option>
+        <option value="makanan">Food</option>
+        <option value="lain">Others</option>
       </select>
       <select class="filter-select" id="filter-ada" onchange="renderTable()">
-        <option value="">Semua Status</option>
-        <option value="ada">Ada Stok</option>
-        <option value="habis">Habis</option>
+        <option value="">All Visibility</option>
+        <option value="ada">Visible only</option>
+        <option value="hidden">Hidden only</option>
       </select>
       <select class="filter-select" id="filter-sort" onchange="renderTable()">
-        <option value="">Susun: Default</option>
+        <option value="">Sort: Default</option>
         <option value="az">A → Z</option>
         <option value="za">Z → A</option>
-        <option value="harga-asc">Harga: Rendah ke Tinggi</option>
-        <option value="harga-desc">Harga: Tinggi ke Rendah</option>
-        <option value="ada">Ada Stok Dulu</option>
-        <option value="habis">Habis Dulu</option>
+        <option value="harga-asc">Price: Low to High</option>
+        <option value="harga-desc">Price: High to Low</option>
       </select>
-      <input type="text" class="search-input" id="search" placeholder="Cari nama item..." oninput="renderTable()">
+      <input type="text" class="search-input" id="search" placeholder="Search by name..." oninput="renderTable()">
     </div>
 
     <!-- Table -->
     <div class="table-wrap">
-      <div class="loading" id="table-loading">Memuatkan menu...</div>
+      <div class="loading" id="table-loading">Loading menu...</div>
       <table id="menu-table" style="display:none">
         <thead>
           <tr>
-            <th style="width:50px">Gambar</th>
-            <th>Nama</th>
-            <th>Kategori</th>
-            <th>Harga</th>
-            <th class="td-desc">Deskripsi</th>
-            <th style="width:70px;text-align:center">Ada</th>
+            <th style="width:50px">Photo</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th class="td-desc">Description</th>
+            <th style="width:70px;text-align:center">Show</th>
             <th style="width:50px;text-align:center">⭐</th>
-            <th style="width:120px">Tindakan</th>
+            <th style="width:120px">Actions</th>
           </tr>
         </thead>
         <tbody id="table-body"></tbody>
       </table>
     <div class="empty-state" id="empty-state" style="display:none">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-linecap="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg>
-        <p id="empty-state-msg">Tiada item dijumpai</p>
-        <span id="empty-state-sub">Cuba tukar filter atau carian</span>
+        <p id="empty-state-msg">No items found</p>
+        <span id="empty-state-sub">Try changing the filter or search</span>
       </div>
     </div></div>
 </div>
 
 <!-- ADD/EDIT MODAL -->
-<div class="modal-overlay" id="item-modal">
+<dialog class="modal-overlay" id="item-modal" aria-labelledby="modal-title">
   <div class="modal-box">
     <div class="modal-head">
-      <h3 id="modal-title">Tambah Item</h3>
-      <button class="modal-close-btn" onclick="closeModal()">✕</button>
+      <h3 id="modal-title">Add Item</h3>
+      <button class="modal-close-btn" onclick="closeModal()" aria-label="Close">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-grid">
         <div class="form-group full">
-          <label>Nama Item *</label>
-          <input type="text" id="f-nama" placeholder="cth: Caramel Latte">
+          <label>Item Name *</label>
+          <input type="text" id="f-nama" placeholder="e.g. Caramel Latte">
         </div>
         <div class="form-group">
-          <label>Kategori *</label>
+          <label>Category *</label>
           <select id="f-kat" onchange="onKatChange(this.value)">
-            <option value="minuman">Minuman</option>
-            <option value="dessert">Dessert</option>
-            <option value="roti">Roti</option>
-            <option value="biskut">Biskut & Kuih</option>
-            <option value="makanan">Makanan</option>
-            <option value="lain">Lain-Lain</option>
+            <option value="minuman">Beverages</option>
+            <option value="dessert">Desserts</option>
+            <option value="roti">Bread</option>
+            <option value="biskut">Cookies & Pastries</option>
+            <option value="makanan">Food</option>
+            <option value="lain">Others</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Harga (RM) — jika satu harga je</label>
-          <input type="number" id="f-harga" placeholder="cth: 12.9" step="0.1">
+          <label>Price (RM) — single price only</label>
+          <input type="number" id="f-harga" placeholder="e.g. 12.9" step="0.1">
         </div>
         <div class="form-group" id="row-hot" style="display:none">
-          <label>Harga Hot (RM)</label>
-          <input type="number" id="f-hot" placeholder="cth: 10.5" step="0.1">
+          <label>Hot Price (RM)</label>
+          <input type="number" id="f-hot" placeholder="e.g. 10.5" step="0.1">
         </div>
         <div class="form-group" id="row-iced" style="display:none">
-          <label>Harga Iced (RM)</label>
-          <input type="number" id="f-iced" placeholder="cth: 11.5" step="0.1">
+          <label>Iced Price (RM)</label>
+          <input type="number" id="f-iced" placeholder="e.g. 11.5" step="0.1">
         </div>
         <div class="form-group">
-          <label>Harga Asal (jika ada diskaun)</label>
-          <input type="number" id="f-harga-asal" placeholder="cth: 15" step="0.1">
+          <label>Original Price (if discounted)</label>
+          <input type="number" id="f-harga-asal" placeholder="e.g. 15" step="0.1">
         </div>
         <div class="form-group full">
-          <label>Deskripsi</label>
-          <textarea id="f-desc" placeholder="Penerangan ringkas item..."></textarea>
+          <label>Description</label>
+          <textarea id="f-desc" placeholder="Short description of the item..."></textarea>
         </div>
         <div class="form-group full">
-          <label>Gambar</label>
+          <label>Photo</label>
           <div style="position:relative">
             <div class="img-upload-wrap" id="img-upload-wrap" onclick="document.getElementById('f-gambar-file').click()">
               <div class="img-upload-preview" id="img-preview">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                <span>Klik untuk pilih gambar</span>
-                <span class="img-hint">JPG, PNG — maks 5MB</span>
+                <span>Click to choose a photo</span>
+                <span class="img-hint">JPG, PNG — max 5MB</span>
               </div>
               <input type="file" id="f-gambar-file" accept="image/*" style="display:none" onchange="previewImage(this)">
             </div>
@@ -728,75 +739,69 @@
           </div>
           <input type="hidden" id="f-gambar">
           <button type="button" id="btn-delete-uploaded" onclick="deleteUploadedImage()" style="display:none;width:100%;margin-top:6px;padding:7px;background:var(--red-light);color:var(--red);border:1px solid rgba(192,57,43,0.2);border-radius:7px;font-family:'Jost',sans-serif;font-size:0.78rem;cursor:pointer;">
-            🗑 Buang gambar yang tersimpan
+            🗑 Remove saved photo
           </button>
           <input type="hidden" id="f-gambar-base64">
           <input type="hidden" id="f-gambar-mime">
           <input type="hidden" id="f-gambar-filename">
         </div>
         <div class="form-group full">
-          <label>Status</label>
           <div class="form-checks">
             <label class="check-label">
               <input type="checkbox" id="f-ada" checked>
-              Ada Stok
+              Show on website
             </label>
             <label class="check-label">
               <input type="checkbox" id="f-special">
-              Special Hari Ini ⭐
+              Signature Item ⭐
             </label>
           </div>
         </div>
       </div>
     </div>
     <div class="modal-foot">
-      <button class="btn-cancel" onclick="closeModal()">Batal</button>
-      <button class="btn-save" onclick="saveItem()">Simpan</button>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-save" onclick="saveItem()">Save</button>
     </div>
   </div>
 </div>
 
 <!-- CONFIRM DELETE -->
-<div class="confirm-overlay" id="confirm-overlay">
+<dialog class="confirm-overlay" id="confirm-overlay" aria-labelledby="confirm-msg">
   <div class="confirm-box">
-    <h4>Padam Item?</h4>
-    <p id="confirm-msg">Item ini akan dipadam dari menu.</p>
+    <h4>Delete this item?</h4>
+    <p id="confirm-msg">This item will be removed from the menu.</p>
     <div class="confirm-actions">
-      <button class="btn-confirm-cancel" onclick="closeConfirm()">Batal</button>
-      <button class="btn-confirm-del" onclick="confirmDelete()">Padam</button>
+      <button class="btn-confirm-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm-del" onclick="confirmDelete()">Delete</button>
     </div>
   </div>
-</div>
+</dialog>
 
 
 <!-- IMAGE VIEWER -->
-<div class="imgview-overlay" id="imgview-overlay" onclick="closeImgView()">
+<dialog class="imgview-overlay" id="imgview-overlay" onclick="if(event.target===this)closeImgView()" aria-label="Photo viewer">
   <img id="imgview-img" src="" alt="">
-  <button class="imgview-close" onclick="closeImgView()">✕</button>
-</div>
+  <button class="imgview-close" onclick="closeImgView()" aria-label="Close">✕</button>
+</dialog>
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-  // ── Config ──
-  // ⚠️ Kemaskini URL ini bila deploy semula Apps Script
   const APPS_URL = 'https://script.google.com/macros/s/AKfycbw2jLCoTHqykhUut0INPygZPNn5xgNtUHXiYLQs7bCUsFGGF84XwaBHvGzHT582XWU1dQ/exec';
-  const PW_KEY   = 'mbb_admin_pw';
-  const KAT_LABEL    = { minuman:'Minuman', dessert:'Dessert', roti:'Roti', biskut:'Biskut & Kuih', makanan:'Makanan', lain:'Lain-Lain' };
+  const KAT_LABEL    = { minuman:'Beverages', dessert:'Desserts', roti:'Bread', biskut:'Cookies & Pastries', makanan:'Food', lain:'Others' };
   const KAT_EMOJI    = { minuman:'🥤', dessert:'🍰', roti:'🍞', biskut:'🍪', makanan:'🍱', lain:'✨' };
 
-  // APPS_URL is hardcoded above
   let ADMIN_PW  = '';
   let allItems = [];
   let editRow  = null;
   let deleteRow = null;
   let deleteName = '';
 
-  // ── Login ──
   function doLogin() {
     const pw = document.getElementById('login-pw').value.trim();
-    if (!pw) { showLoginError('Sila masukkan password.'); return; }
+    if (!pw) { showLoginError('Please enter a password.'); return; }
     ADMIN_PW = pw;
     loadMenu(true);
   }
@@ -818,22 +823,20 @@
     document.getElementById('app').style.display = 'none';
     document.getElementById('login-screen').style.display = 'flex';
     document.getElementById('login-pw').value = '';
-    // URL & RBG key kekal tersimpan, password je dikosongkan
   }
 
-  // ── Load menu ──
   async function loadMenu(fromLogin = false) {
     try {
       const res  = await fetch(APPS_URL);
       const data = await res.json();
-      if (data.error) { if (fromLogin) showLoginError('Password salah atau gagal sambung.'); return; }
+      if (data.error) { if (fromLogin) showLoginError('Wrong password or connection failed.'); return; }
       allItems = data;
 
       if (fromLogin) {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         document.getElementById('login-error').style.display = 'none';
-        setTimeout(() => showToast('Selamat datang! Berjaya log masuk ✓'), 300);
+        setTimeout(() => showToast('Welcome! Logged in successfully ✓'), 300);
       }
 
       updateStats();
@@ -841,43 +844,40 @@
       document.getElementById('table-loading').style.display = 'none';
       document.getElementById('menu-table').style.display = 'table';
     } catch (e) {
-      if (fromLogin) showLoginError('Gagal sambung ke Apps Script.');
+      if (fromLogin) showLoginError('Could not connect to Apps Script.');
     }
   }
 
   function updateStats() {
-    const ada     = allItems.filter(i => i.ada).length;
     const special = allItems.filter(i => i.special).length;
+    const visible = allItems.filter(i => i.ada === true || i.ada === 'TRUE' || i.ada === 'true').length;
+    const hidden = allItems.length - visible;
     document.getElementById('stat-total').textContent   = allItems.length;
-    document.getElementById('stat-ada').textContent     = ada;
-    document.getElementById('stat-habis').textContent   = allItems.length - ada;
+    document.getElementById('stat-visible').textContent = visible;
+    document.getElementById('stat-hidden').textContent  = hidden;
     document.getElementById('stat-special').textContent = special;
   }
 
-  // ── Render table ──
   function renderTable() {
     const search    = document.getElementById('search').value.toLowerCase();
     const filterKat = document.getElementById('filter-kat').value;
     const filterAda = document.getElementById('filter-ada').value;
 
     let items = allItems.filter(item => {
+      const isAda = item.ada === true || item.ada === 'TRUE' || item.ada === 'true';
       if (filterKat && item.kategori !== filterKat) return false;
-      if (filterAda === 'ada'   && !item.ada)  return false;
-      if (filterAda === 'habis' && item.ada)   return false;
+      if (filterAda === 'ada'    && !isAda) return false;
+      if (filterAda === 'hidden' && isAda)  return false;
       if (search && !item.nama.toLowerCase().includes(search)) return false;
       return true;
     });
 
-    // Sort
     const sortVal = document.getElementById('filter-sort')?.value || '';
     if (sortVal === 'az')         items.sort((a,b) => a.nama.localeCompare(b.nama));
     else if (sortVal === 'za')    items.sort((a,b) => b.nama.localeCompare(a.nama));
     else if (sortVal === 'harga-asc')  items.sort((a,b) => parseFloat(a.harga||a.harga_hot||0) - parseFloat(b.harga||b.harga_hot||0));
     else if (sortVal === 'harga-desc') items.sort((a,b) => parseFloat(b.harga||b.harga_hot||0) - parseFloat(a.harga||a.harga_hot||0));
-    else if (sortVal === 'ada')   items.sort((a,b) => (b.ada ? 1 : 0) - (a.ada ? 1 : 0));
-    else if (sortVal === 'habis') items.sort((a,b) => (a.ada ? 1 : 0) - (b.ada ? 1 : 0));
 
-    // Empty state
     const emptyState = document.getElementById('empty-state');
     const menuTable  = document.getElementById('menu-table');
     const emptyMsg   = document.getElementById('empty-state-msg');
@@ -888,12 +888,12 @@
       const search = document.getElementById('search').value;
       const filterKatVal = document.getElementById('filter-kat').value;
       const filterAdaVal = document.getElementById('filter-ada').value;
-      if (search && emptyMsg) emptyMsg.textContent = `Tiada hasil untuk "${search}"`;
-      else if (filterKatVal && emptyMsg) emptyMsg.textContent = `Tiada item dalam kategori ini`;
-      else if (filterAdaVal === 'habis' && emptyMsg) emptyMsg.textContent = `Semua item ada stok`;
-      else if (filterKatVal === 'ada' && emptyMsg) emptyMsg.textContent = `Tiada item yang ada stok`;
-      else if (emptyMsg) emptyMsg.textContent = 'Tiada item dijumpai';
-      if (emptySub) emptySub.textContent = 'Cuba tukar filter atau tambah item baru';
+      if (search && emptyMsg) emptyMsg.textContent = `No results for "${search}"`;
+      else if (filterKatVal && emptyMsg) emptyMsg.textContent = `No items in this category`;
+      else if (filterAdaVal === 'ada' && emptyMsg) emptyMsg.textContent = `No visible items`;
+      else if (filterAdaVal === 'hidden' && emptyMsg) emptyMsg.textContent = `No hidden items`;
+      else if (emptyMsg) emptyMsg.textContent = 'No items found';
+      if (emptySub) emptySub.textContent = 'Try changing the filter or add a new item';
       return;
     }
     if (menuTable) menuTable.style.display = 'table';
@@ -901,6 +901,7 @@
 
     const tbody = document.getElementById('table-body');
     tbody.innerHTML = items.map(item => {
+      const isAda = item.ada === true || item.ada === 'TRUE' || item.ada === 'true';
       const imgHTML = item.gambar_url
         ? `<img src="${item.gambar_url}" alt="">`
         : `<div class="no-img">${KAT_EMOJI[item.kategori] || '🍽️'}</div>`;
@@ -920,24 +921,23 @@
         <td class="td-desc" style="font-size:0.78rem;color:var(--muted);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${item.deskripsi || ''}</td>
         <td style="text-align:center">
           <label class="toggle">
-            <input type="checkbox" ${item.ada ? 'checked' : ''} onchange="toggleAda(${row}, this)">
+            <input type="checkbox" ${isAda ? 'checked' : ''} onchange="toggleAda(${row}, this)" aria-label="Toggle visibility">
             <span class="toggle-slider"></span>
           </label>
         </td>
         <td style="text-align:center">
-          <button class="star-btn ${item.special ? 'active' : ''}" onclick="toggleSpecial(${row}, this)">⭐</button>
+          <button class="star-btn ${item.special ? 'active' : ''}" onclick="toggleSpecial(${row}, this)" aria-label="${item.special ? 'Remove from signature' : 'Mark as signature'}">⭐</button>
         </td>
         <td>
           <div class="td-actions">
             <button class="btn-edit" onclick="openEditModal(${row})">Edit</button>
-            <button class="btn-del" onclick="askDelete(${row}, '${item.nama.replace(/'/g,"\\'")}')">Padam</button>
+            <button class="btn-del" onclick="askDelete(${row}, '${item.nama.replace(/'/g,"\\'")}')">Delete</button>
           </div>
         </td>
       </tr>`;
     }).join('');
   }
 
-  // ── Toggle ada ──
   async function toggleAda(row, checkbox) {
     try {
       const res  = await postAction({ action: 'toggle_ada', row });
@@ -946,11 +946,10 @@
       const item = allItems.find(i => i._row === row);
       if (item) item.ada = data.value;
       updateStats();
-      showToast(data.value ? 'Ditandakan Ada ✓' : 'Ditandakan Habis');
-    } catch(e) { showToast('Gagal sambung. Cuba semula.', true); checkbox.checked = !checkbox.checked; }
+      showToast(data.value ? 'Visible on website ✓' : 'Hidden from website');
+    } catch(e) { showToast('Could not connect. Please try again.', true); checkbox.checked = !checkbox.checked; }
   }
 
-  // ── Toggle special ──
   async function toggleSpecial(row, btn) {
     const res  = await postAction({ action: 'toggle_special', row });
     const data = await res.json();
@@ -959,16 +958,15 @@
     if (item) item.special = data.value;
     btn.classList.toggle('active', data.value);
     updateStats();
-    showToast(data.value ? 'Ditandakan Special ⭐' : 'Special dibuang');
+    showToast(data.value ? 'Marked as signature ⭐' : 'Signature removed');
   }
 
-  // ── Add/Edit modal ──
   function openAddModal() {
     editRow = null;
-    document.getElementById('modal-title').textContent = 'Tambah Item Baru';
+    document.getElementById('modal-title').textContent = 'Add New Item';
     document.getElementById('btn-delete-uploaded').style.display = 'none';
     clearForm();
-    document.getElementById('item-modal').classList.add('open');
+    document.getElementById('item-modal').showModal();
   }
 
   function openEditModal(row) {
@@ -985,7 +983,6 @@
     document.getElementById('f-harga-asal').value = item.harga_asal || '';
     document.getElementById('f-desc').value     = item.deskripsi || '';
     document.getElementById('f-gambar').value = item.gambar_url || '';
-    // Show existing image preview
     resetImageUpload();
     const delBtn = document.getElementById('btn-delete-uploaded');
     delBtn.style.display = 'none';
@@ -994,17 +991,18 @@
       const prev = document.getElementById('img-preview');
       const removeBtn = document.getElementById('btn-remove-img');
       wrap.classList.add('has-img');
-      prev.innerHTML = `<img src="${item.gambar_url}" alt="preview" onerror="this.parentElement.innerHTML='<span style=\'color:var(--muted);font-size:0.8rem\'>Gambar sedia ada</span>'">`;
+      prev.innerHTML = `<img src="${item.gambar_url}" alt="preview" onerror="this.parentElement.innerHTML='<span style=\'color:var(--muted);font-size:0.8rem\'>Existing photo</span>'">`;
       removeBtn.style.display = 'block';
       delBtn.style.display = 'block';
     }
-    document.getElementById('f-ada').checked    = item.ada;
+    const isAda = item.ada === true || item.ada === 'TRUE' || item.ada === 'true';
+    document.getElementById('f-ada').checked     = isAda;
     document.getElementById('f-special').checked = item.special;
-    document.getElementById('item-modal').classList.add('open');
+    document.getElementById('item-modal').showModal();
   }
 
   function closeModal() {
-    document.getElementById('item-modal').classList.remove('open');
+    document.getElementById('item-modal').close();
     editRow = null;
   }
 
@@ -1017,35 +1015,29 @@
     document.getElementById('f-special').checked = false;
   }
 
-
-
-
-  // ── Delete uploaded image ──
   async function deleteUploadedImage() {
     if (!editRow) return;
     const btn = document.getElementById('btn-delete-uploaded');
-    btn.textContent = 'Membuang...';
+    btn.textContent = 'Removing...';
     btn.disabled = true;
     try {
       const res  = await postAction({ action: 'update', row: editRow, item: { ...allItems.find(i => i._row === editRow), gambar_url: '' } });
       const data = await res.json();
-      if (data.error) { showToast(data.error, true); btn.textContent = '🗑 Buang gambar yang tersimpan'; btn.disabled = false; return; }
-      // Update local data
+      if (data.error) { showToast(data.error, true); btn.textContent = '🗑 Remove saved photo'; btn.disabled = false; return; }
       const item = allItems.find(i => i._row === editRow);
       if (item) item.gambar_url = '';
       document.getElementById('f-gambar').value = '';
       resetImageUpload();
       btn.style.display = 'none';
-      showToast('Gambar dibuang ✓');
+      showToast('Photo removed ✓');
       renderTable();
     } catch(e) {
-      btn.textContent = '🗑 Buang gambar yang tersimpan';
+      btn.textContent = '🗑 Remove saved photo';
       btn.disabled = false;
-      showToast('Gagal buang gambar.', true);
+      showToast('Failed to remove photo.', true);
     }
   }
 
-  // ── Kategori change ──
   function onKatChange(kat) {
     const show = kat === 'minuman';
     document.getElementById('row-hot').style.display   = show ? '' : 'none';
@@ -1056,24 +1048,22 @@
     }
   }
 
-  // ── Image viewer ──
   function openImgView(url) {
     document.getElementById('imgview-img').src = url;
-    document.getElementById('imgview-overlay').classList.add('open');
+    document.getElementById('imgview-overlay').showModal();
   }
   function closeImgView() {
-    document.getElementById('imgview-overlay').classList.remove('open');
+    document.getElementById('imgview-overlay').close();
     document.getElementById('imgview-img').src = '';
   }
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeImgView();
   });
 
-  // ── Image upload ──
   function previewImage(input) {
     const file = input.files[0];
     if (!file) return;
-    if (file.size > 5 * 1024 * 1024) { showToast('Gambar terlalu besar! Maks 5MB.', true); return; }
+    if (file.size > 5 * 1024 * 1024) { showToast('Photo too large! Max 5MB.', true); return; }
 
     const reader = new FileReader();
     reader.onload = e => {
@@ -1081,13 +1071,11 @@
       const base64  = dataUrl.split(',')[1];
       const mime    = file.type;
 
-      // Store for upload
       document.getElementById('f-gambar-base64').value   = base64;
       document.getElementById('f-gambar-mime').value     = mime;
       document.getElementById('f-gambar-filename').value = file.name;
       document.getElementById('f-gambar').value = '';
 
-      // Preview
       const wrap = document.getElementById('img-upload-wrap');
       const prev = document.getElementById('img-preview');
       const removeBtn = document.getElementById('btn-remove-img');
@@ -1099,17 +1087,14 @@
   }
 
   function onUrlInput() {
-    // Clear file upload if URL is typed
     document.getElementById('f-gambar-base64').value = '';
     document.getElementById('f-gambar-mime').value = '';
     document.getElementById('f-gambar-filename').value = '';
     const wrap = document.getElementById('img-upload-wrap');
     const prev = document.getElementById('img-preview');
     wrap.classList.remove('has-img');
-    prev.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Klik untuk pilih gambar</span><span class="img-hint">JPG, PNG — maks 5MB</span>`;
+    prev.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Click to choose a photo</span><span class="img-hint">JPG, PNG — max 5MB</span>`;
   }
-
-
 
   async function uploadImageIfNeeded() {
     const base64   = document.getElementById('f-gambar-base64').value;
@@ -1118,17 +1103,16 @@
     if (!base64) return null;
 
     const prev = document.getElementById('img-preview');
-    const savedPreview = prev.innerHTML; // save current preview
-    prev.innerHTML = `<div class="img-uploading"><div class="spinner"></div> Mengupload ke Drive...</div>`;
+    const savedPreview = prev.innerHTML;
+    prev.innerHTML = `<div class="img-uploading"><div class="spinner"></div> Uploading to Drive...</div>`;
 
     const res  = await postAction({ action: 'upload_image', base64, mimeType: mime, fileName: filename });
     const data = await res.json();
     if (data.error) {
-      prev.innerHTML = savedPreview; // restore preview on error
-      showToast('Gagal upload: ' + data.error, true);
+      prev.innerHTML = savedPreview;
+      showToast('Upload failed: ' + data.error, true);
       return null;
     }
-    // Reset upload state after success
     resetImageUpload();
     return data.url;
   }
@@ -1138,7 +1122,7 @@
     const prev = document.getElementById('img-preview');
     const removeBtn = document.getElementById('btn-remove-img');
     wrap.classList.remove('has-img');
-    prev.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Klik untuk pilih gambar</span><span class="img-hint">JPG, PNG — maks 5MB</span>`;
+    prev.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span>Click to choose a photo</span><span class="img-hint">JPG, PNG — max 5MB</span>`;
     removeBtn.style.display = 'none';
     ['f-gambar-base64','f-gambar-mime','f-gambar-filename'].forEach(id => document.getElementById(id).value = '');
     document.getElementById('f-gambar-file').value = '';
@@ -1151,13 +1135,12 @@
 
   async function saveItem() {
     const nama = document.getElementById('f-nama').value.trim();
-    if (!nama) { showToast('Nama item wajib diisi!', true); return; }
+    if (!nama) { showToast('Item name is required!', true); return; }
 
     const btn = document.querySelector('.btn-save');
-    btn.textContent = 'Menyimpan...';
+    btn.textContent = 'Saving...';
     btn.disabled = true;
 
-    // Upload gambar dulu jika ada
     let gambarUrl = document.getElementById('f-gambar').value;
     if (document.getElementById('f-gambar-base64').value) {
       const uploadedUrl = await uploadImageIfNeeded();
@@ -1182,30 +1165,29 @@
     try {
       const res  = await postAction(payload);
       const data = await res.json();
-      btn.textContent = 'Simpan';
+      btn.textContent = 'Save';
       btn.disabled = false;
       if (data.error) { showToast(data.error, true); return; }
       const wasEditing = editRow;
       closeModal();
-      showToast(wasEditing ? 'Item dikemaskini ✓' : 'Item baru ditambah ✓');
+      showToast(wasEditing ? 'Item updated ✓' : 'New item added ✓');
       await loadMenu();
     } catch(e) {
-      btn.textContent = 'Simpan';
+      btn.textContent = 'Save';
       btn.disabled = false;
-      showToast('Gagal sambung ke server. Cuba semula.', true);
+      showToast('Could not connect to server. Please try again.', true);
     }
   }
 
-  // ── Delete ──
   function askDelete(row, name) {
     deleteRow = row;
     deleteName = name;
-    document.getElementById('confirm-msg').textContent = `"${name}" akan dipadam dari menu.`;
-    document.getElementById('confirm-overlay').classList.add('open');
+    document.getElementById('confirm-msg').textContent = `"${name}" will be removed from the menu.`;
+    document.getElementById('confirm-overlay').showModal();
   }
 
   function closeConfirm() {
-    document.getElementById('confirm-overlay').classList.remove('open');
+    document.getElementById('confirm-overlay').close();
     deleteRow = null;
   }
 
@@ -1215,12 +1197,11 @@
       const data = await res.json();
       closeConfirm();
       if (data.error) { showToast(data.error, true); return; }
-      showToast(`"${deleteName}" dipadam.`);
+      showToast(`"${deleteName}" deleted.`);
       await loadMenu();
-    } catch(e) { closeConfirm(); showToast('Gagal sambung. Cuba semula.', true); }
+    } catch(e) { closeConfirm(); showToast('Could not connect. Please try again.', true); }
   }
 
-  // ── API call ──
   async function postAction(payload) {
     payload.password = ADMIN_PW;
     return fetch(APPS_URL, {
@@ -1229,7 +1210,6 @@
     });
   }
 
-  // ── Toast ──
   function showToast(msg, isError = false) {
     const t = document.getElementById('toast');
     t.textContent = msg;
