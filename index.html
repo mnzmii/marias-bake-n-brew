@@ -1213,15 +1213,48 @@
     if (elMobile) elMobile.textContent = `Today, ${masa}`;
   }
 
+  const CACHE_KEY = 'mbb_menu_cache_v1';
+  const CACHE_TTL = 60 * 60 * 1000;
+
+  function getCachedMenu() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      if (!raw) return null;
+      const { data, ts } = JSON.parse(raw);
+      if (Date.now() - ts > CACHE_TTL) { localStorage.removeItem(CACHE_KEY); return null; }
+      return data;
+    } catch { return null; }
+  }
+
+  function setCachedMenu(data) {
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data, ts: Date.now() })); } catch { }
+  }
+
   async function loadMenu() {
     if (APPS_SCRIPT_URL === 'LETAK_URL_APPS_SCRIPT_AWAK_DI_SINI') {
       loadSampleData(); return;
     }
+
+    const cached = getCachedMenu();
+    if (cached) {
+      hideLoading();
+      KATEGORI.forEach(kat => renderSection(kat, cached));
+      renderSpecial(cached);
+      updateLastUpdated();
+      fetch(APPS_SCRIPT_URL).then(r => r.json()).then(items => {
+        setCachedMenu(items);
+        KATEGORI.forEach(kat => renderSection(kat, items));
+        renderSpecial(items);
+        updateLastUpdated();
+      }).catch(e => console.warn('Background refresh failed:', e));
+      return;
+    }
+
     try {
-      // Apps Script handle CORS — fetch JSON terus tanpa masalah
       const res = await fetch(APPS_SCRIPT_URL);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const items = await res.json();
+      setCachedMenu(items);
       hideLoading();
       KATEGORI.forEach(kat => renderSection(kat, items));
       renderSpecial(items);
