@@ -1070,8 +1070,12 @@
     return item.ada === true || item.ada === 'TRUE' || item.ada === 'true';
   }
 
+  function isSpecial(item) {
+    return item.special === true || item.special === 'TRUE' || item.special === 'true';
+  }
+
   function renderSection(kat, items) {
-    const filtered = items.filter(i => i.kategori === kat && isVisible(i));
+    const filtered = items.filter(i => i.kategori === kat && isVisible(i) && !isSpecial(i));
     const section  = document.getElementById(`section-${kat}`);
     const grid     = document.getElementById(`grid-${kat}`);
     const count    = document.getElementById(`count-${kat}`);
