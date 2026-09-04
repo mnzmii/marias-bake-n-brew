@@ -6,12 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About Us — Maria's Bake & Brew</title>
   <meta name="description" content="About Maria's Bake & Brew — founded by Puan Kamariah & Encik Saifulizam from Muar. Three branches: Marialuvcakes, Miamor Coffee House, Maria's Bake & Brew.">
-  <link rel="canonical" href="https://mariasbakeandbrew.com/tentang-kami.html">
+  <link rel="canonical" href="https://mariasbakeandbrew.my/tentang-kami.html">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon-180.png">
   <meta property="og:title" content="About Us — Maria's Bake & Brew">
   <meta property="og:description" content="A family's passion turned into a business — now three branches in Muar, Johor.">
   <meta property="og:type" content="restaurant">
-  <meta property="og:url" content="https://mariasbakeandbrew.com/tentang-kami.html">
+  <meta property="og:url" content="https://mariasbakeandbrew.my/tentang-kami.html">
   <meta property="og:locale" content="en_MY">
+  <meta property="og:image" content="https://mariasbakeandbrew.my/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Maria's Bake & Brew — family bakery in Muar">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/hero1.webp" type="image/webp">
@@ -29,7 +37,7 @@
       background: var(--green-deep);
       position: relative;
       overflow: visible;
-      padding: 64px 40px 100px;
+      padding: 110px 40px 100px;
     }
 
     .page-hero::before {
@@ -49,6 +57,21 @@
       background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
       background-size: 28px 28px;
       mask-image: linear-gradient(to left, rgba(0, 0, 0, 0.6), transparent);
+    }
+
+    .page-hero-awning {
+      position: absolute;
+      left: 0; right: 0; top: 0;
+      width: 100%;
+      height: 88px;
+      display: block;
+      z-index: 3;
+      pointer-events: none;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.2));
+      background-repeat: repeat-x;
+      background-size: 60px 88px;
+      background-position: left top;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='88' viewBox='0 0 60 88'%3E%3Cdefs%3E%3Cpattern id='s' x='0' y='0' width='60' height='48' patternUnits='userSpaceOnUse'%3E%3Crect x='0' y='0' width='15' height='48' fill='%23F8F3EB'/%3E%3Crect x='15' y='0' width='15' height='48' fill='%231E3D2F'/%3E%3Crect x='30' y='0' width='15' height='48' fill='%23F8F3EB'/%3E%3Crect x='45' y='0' width='15' height='48' fill='%23C9A84C'/%3E%3C/pattern%3E%3C/defs%3E%3Cpath d='M0,0 L60,0 L60,48 A30,30 0 0 1 0,48 Z' fill='url(%23s)'/%3E%3C/svg%3E");
     }
 
     .page-hero-inner {
@@ -479,6 +502,7 @@
   </header>
 
   <div class="page-hero">
+    <div class="page-hero-awning" aria-hidden="true"></div>
     <div class="page-hero-inner">
       <h2>Made with <em>love,</em><br>served with pride.</h2>
       <p>A family's passion turned into a business — now grown into three branches across Muar, Johor.</p>
